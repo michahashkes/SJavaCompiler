@@ -4,12 +4,15 @@ import java.util.HashMap;
 
 public class RegexGlobals {
 
-    public static final HashMap<LineTypes, String> declareMap = new HashMap<>();
-    public static final HashMap<LineTypes, String> assignMap = new HashMap<>();
-    public static final HashMap<LineTypes, String> finalMap = new HashMap<>();
+    private static final HashMap<Types, String> declareMap = new HashMap<>();
+    private static final HashMap<Types, String> assignMap = new HashMap<>();
+    private static final HashMap<Types, String> finalMap = new HashMap<>();
 
-    public static HashMap<StatementTypes, HashMap<LineTypes, String>> createLineTypesMap() {
-        HashMap<StatementTypes, HashMap<LineTypes, String>> lineTypesMap = new HashMap<>();
+//    private static final HashMap<LineTypes,String> ifMap = new HashMap<>();
+//    private static final HashMap<LineTypes,String> whileMap = new HashMap<
+
+    public static HashMap<StatementTypes, HashMap<Types, String>> createLineTypesMap() {
+        HashMap<StatementTypes, HashMap<Types, String>> lineTypesMap = new HashMap<>();
         putDeclareMap();
         putAssignMap();
         putFinalMap();
@@ -20,27 +23,27 @@ public class RegexGlobals {
     }
 
     private static void putDeclareMap() {
-        declareMap.put(LineTypesDeclare.INT_DECLARATION_INIT_PARSER, INT_DECLARATION_INIT_PARSER);
-        declareMap.put(LineTypesDeclare.DOUBLE_DECLARATION_INIT_PARSER, DOUBLE_DECLARATION_INIT_PARSER);
-        declareMap.put(LineTypesDeclare.STRING_DECLARATION_INIT_PARSER, STRING_DECLARATION_INIT_PARSER);
-        declareMap.put(LineTypesDeclare.BOOLEAN_DECLARATION_INIT_PARSER, BOOLEAN_DECLARATION_INIT_PARSER);
-        declareMap.put(LineTypesDeclare.CHAR_DECLARATION_INIT_PARSER, CHAR_DECLARATION_INIT_PARSER);
+        declareMap.put(Types.INT, INT_DECLARATION_INIT_PARSER);
+        declareMap.put(Types.DOUBLE, DOUBLE_DECLARATION_INIT_PARSER);
+        declareMap.put(Types.STRING, STRING_DECLARATION_INIT_PARSER);
+        declareMap.put(Types.BOOLEAN, BOOLEAN_DECLARATION_INIT_PARSER);
+        declareMap.put(Types.CHAR, CHAR_DECLARATION_INIT_PARSER);
     }
 
     private static void putAssignMap() {
-        assignMap.put(LineTypesAssign.INT_ASSIGNMENT_PARSER, INT_ASSIGNMENT_PARSER);
-        assignMap.put(LineTypesAssign.DOUBLE_ASSIGNMENT_PARSER, DOUBLE_ASSIGNMENT_PARSER);
-        assignMap.put(LineTypesAssign.STRING_ASSIGNMENT_PARSER, STRING_ASSIGNMENT_PARSER);
-        assignMap.put(LineTypesAssign.BOOLEAN_ASSIGNMENT_PARSER, BOOLEAN_ASSIGNMENT_PARSER);
-        assignMap.put(LineTypesAssign.CHAR_ASSIGNMENT_PARSER, CHAR_ASSIGNMENT_PARSER);
+        assignMap.put(Types.INT, INT_ASSIGNMENT_PARSER);
+        assignMap.put(Types.DOUBLE, DOUBLE_ASSIGNMENT_PARSER);
+        assignMap.put(Types.STRING, STRING_ASSIGNMENT_PARSER);
+        assignMap.put(Types.BOOLEAN, BOOLEAN_ASSIGNMENT_PARSER);
+        assignMap.put(Types.CHAR, CHAR_ASSIGNMENT_PARSER);
     }
 
     private static void putFinalMap() {
-        finalMap.put(LineTypesFinal.INT_FINAL_PARSER, INT_FINAL_PARSER);
-        finalMap.put(LineTypesFinal.DOUBLE_FINAL_PARSER, DOUBLE_FINAL_PARSER);
-        finalMap.put(LineTypesFinal.STRING_FINAL_PARSER, STRING_FINAL_PARSER);
-        finalMap.put(LineTypesFinal.BOOLEAN_FINAL_PARSER, BOOLEAN_FINAL_PARSER);
-        finalMap.put(LineTypesFinal.CHAR_FINAL_PARSER, CHAR_FINAL_PARSER);
+        finalMap.put(Types.INT, INT_FINAL_PARSER);
+        finalMap.put(Types.DOUBLE, DOUBLE_FINAL_PARSER);
+        finalMap.put(Types.STRING, STRING_FINAL_PARSER);
+        finalMap.put(Types.BOOLEAN, BOOLEAN_FINAL_PARSER);
+        finalMap.put(Types.CHAR, CHAR_FINAL_PARSER);
     }
 
 

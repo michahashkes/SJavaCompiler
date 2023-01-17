@@ -1,5 +1,7 @@
 package oop.ex6.main;
 
+import java.util.HashMap;
+
 public class RegexScopes {
 
     public static final String METHOD_NAME = "([a-zA-Z]+\\w*);";
@@ -16,5 +18,12 @@ public class RegexScopes {
             RegexGlobals.BOOLEAN_FORMAT+"\\s*)*\\){";
 
 
-
+    public static HashMap<StatementTypes,String> createLineTypesMap() {
+        HashMap<StatementTypes,String> hashMap = new HashMap<>();
+        hashMap.put(StatementTypes.IF,IF_STATEMENT);
+        hashMap.put(StatementTypes.WHILE,WHILE_STATEMENT);
+        hashMap.put(StatementTypes.METHOD_CALL,METHOD_CALL);
+        hashMap.put(StatementTypes.METHOD_DECLARE,METHOD_DECLARATION);
+        return hashMap;
+    }
 }
