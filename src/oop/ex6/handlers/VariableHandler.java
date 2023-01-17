@@ -1,17 +1,17 @@
 package oop.ex6.handlers;
 
-import java.lang.reflect.Type;
+import oop.ex6.main.Types;
 
 public interface VariableHandler {
 
-    public boolean handleDeclaredVariable(String variableName, Type variableType);
+    public boolean handleDeclaredVariable(String variableName, Types variableType);
 
-    public boolean handleAssignedVariable(String variableName, String variableValue, Type valueType);
+    public boolean handleAssignedVariable(String variableName, String variableValue);
 
     public boolean handleInitializedVariable(String variableName,
-                                             Type variableType, String variableValue,Type valueType);
+                                             Types variableType, String variableValue);
 
     public boolean handleFinalVariable(String variableName,
-                                       Type variableType, String variableValue);
+                                       Types variableType, String variableValue);
 
 }

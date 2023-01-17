@@ -1,26 +1,26 @@
 package oop.ex6;
 
+import oop.ex6.main.Types;
+
 public class Variable {
-    private final String type;
+    private final Types type;
     private final String name;
     private boolean isInitialized;
     private final boolean isFinal;
-    private final int scope;
 
-    public Variable(String type, String name,
+    public Variable(Types type, String name,
                     boolean isInitialized, boolean isFinal) {
         this.type = type;
         this.name = name;
         this.isInitialized = isInitialized;
         this.isFinal = isFinal;
-        this.scope = 0;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getType() {
+    public Types getType() {
         return type;
     }
 
@@ -36,7 +36,4 @@ public class Variable {
         isInitialized = true;
     }
 
-    public int getScope() {
-        return scope;
-    }
 }

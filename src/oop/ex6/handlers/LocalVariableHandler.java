@@ -1,9 +1,7 @@
 package oop.ex6.handlers;
 
-import oop.ex6.Method;
-import oop.ex6.MethodScope;
-import oop.ex6.PossibleGlobalVariable;
-import oop.ex6.Variable;
+import oop.ex6.*;
+import oop.ex6.main.Types;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,7 +10,7 @@ import static oop.ex6.main.RegexGlobals.NAME_FORMAT;
 
 public class LocalVariableHandler implements VariableHandler {
 
-    public boolean handleDeclaredVariable(String variableName, String variableType) {
+    public boolean handleDeclaredVariable(String variableName, Types variableType) {
         if (canVariableBeDeclared(variableName)) {
             Variable variable = new Variable(variableType, variableName, false, false);
             Method currentMethod = MethodScope.getCurrentMethod();
@@ -23,7 +21,7 @@ public class LocalVariableHandler implements VariableHandler {
     }
 
     public boolean handleInitializedVariable(String variableName,
-                                              String variableType, String variableValue) {
+                                             Types variableType, String variableValue) {
         if (canVariableBeInitialized(variableName, variableType, variableValue)) {
             Variable variable = new Variable(variableType, variableName, true, false);
             Method currentMethod = MethodScope.getCurrentMethod();
@@ -38,7 +36,7 @@ public class LocalVariableHandler implements VariableHandler {
             Method currentMethod = MethodScope.getCurrentMethod();
             Variable variable = currentMethod.getVariable(variableName);
             if (variable == null) { // case of possible global variable, add it for use
-                variable = new Variable(POSSIBLE_GLOBAL_TYPE, variableName, true, false);
+                variable = new Variable(Types.POSSIBLE_VARIABLE, variableName, true, false);
                 currentMethod.addVariable(variable);
             } else {
                 variable.setInitialized();
@@ -49,7 +47,7 @@ public class LocalVariableHandler implements VariableHandler {
     }
 
     public boolean handleFinalVariable(String variableName,
-                                     String variableType, String variableValue) {
+                                       Types variableType, String variableValue) {
         if (canVariableBeInitialized(variableName, variableType, variableValue)) {
             Variable variable = new Variable(variableType, variableName, true, true);
             Method currentMethod = MethodScope.getCurrentMethod();
@@ -78,7 +76,7 @@ public class LocalVariableHandler implements VariableHandler {
 
         if (variable != null) {
             // local variable was declared
-            if (isValueVariable(variableValue)) {
+            if (VariableTypesUtils.isValueVariable(variableValue)) {
                 // value is in shape of variable, check if it is local
                 Variable variableToAssign = currentMethod.getVariable(variableValue);
                 if (variableToAssign == null) {
@@ -93,18 +91,18 @@ public class LocalVariableHandler implements VariableHandler {
                 // variable value is local, and check if it was initialized, and if types equal
                 return variableToAssign.isInitialized() &&
                         (!variable.isFinal()) &&
-                        areValueTypesEqual(variable.getType(), variableToAssign.getType());
+                        VariableTypesUtils.areValueTypesEqual(variable.getType(), variableToAssign.getType());
             }
             // value is regular shape (primitive type), derive its type and return if equal
-            String valueType = deriveValueType(variableValue);
-            return ((!variable.isFinal()) && areValueTypesEqual(variable.getType(), valueType));
+            Types valueType = VariableTypesUtils.deriveTypeFromValue(variableValue);
+            return ((!variable.isFinal()) && VariableTypesUtils.areValueTypesEqual(variable.getType(), valueType));
         }
 
         // variable is not local, could be global
         PossibleGlobalVariable possibleGlobalVariableToAssign = new PossibleGlobalVariable(variableName);
         possibleGlobalVariableToAssign.setAssigned(true);
 
-        if (isValueVariable(variableValue)) {
+        if (VariableTypesUtils.isValueVariable(variableValue)) {
             // value is in shape of variable, check if it is local
             Variable variableToAssign = currentMethod.getVariable(variableValue);
             if (variableToAssign == null) {
@@ -127,7 +125,7 @@ public class LocalVariableHandler implements VariableHandler {
             return true;
         }
         // value is primitive type, derive its type and add variable to possible list
-        String valueType = deriveValueType(variableValue);
+        Types valueType = VariableTypesUtils.deriveTypeFromValue(variableValue);
         possibleGlobalVariableToAssign.setHasType(true);
         possibleGlobalVariableToAssign.setValueType(valueType);
         MethodScope.addPossibleGlobalVariable(possibleGlobalVariableToAssign);
@@ -135,12 +133,12 @@ public class LocalVariableHandler implements VariableHandler {
     }
 
     private boolean canVariableBeInitialized(String variableName,
-                                             String variableType, String variableValue) {
+                                             Types variableType, String variableValue) {
         if (!canVariableBeDeclared(variableName))
             return false;
         Method currentMethod = MethodScope.getCurrentMethod();
 
-        if (isValueVariable(variableValue)) {
+        if (VariableTypesUtils.isValueVariable(variableValue)) {
             // value is in shape of variable, check if it is local
             Variable variableToAssign = currentMethod.getVariable(variableValue);
             if (variableToAssign == null) {
@@ -153,48 +151,10 @@ public class LocalVariableHandler implements VariableHandler {
                 return true;
             }
             return variableToAssign.isInitialized() &&
-                    areValueTypesEqual(variableType, variableToAssign.getType());
+                    VariableTypesUtils.areValueTypesEqual(variableType, variableToAssign.getType());
         }
         // value is regular shape (primitive type), derive its type and return if equal
-        String valueType = deriveValueType(variableValue);
-        return areValueTypesEqual(variableType, valueType);
-    }
-
-    private boolean areValueTypesEqual(String variableType, String valueType) {
-        if (variableType.equals(valueType))
-            return true;
-        if (variableType == POSSIBLE_GLOBAL_TYPE || valueType == POSSIBLE_GLOBAL_TYPE)
-            return true;
-        if (variableType.equals("double") && valueType.equals("int"))
-            return true;
-        if (variableType.equals("boolean") && (valueType.equals("int") || valueType.equals("double")))
-            return true;
-        return false;
-    }
-
-    private boolean isValueVariable(String variableValue) {
-        Pattern p = Pattern.compile(NAME_FORMAT);
-        Matcher m = p.matcher(variableValue);
-        return m.matches();
-    }
-
-    private String deriveValueType(String variableValue) {
-        // TODO: return all possible types
-        Pattern p = Pattern.compile("\\d+");
-        Matcher m = p.matcher(variableValue);
-        if (m.matches())
-            return "int";
-
-        p = Pattern.compile(VARIABLE_NAME_REGEX);
-        m = p.matcher(variableValue);
-        if (m.matches()) {
-            // check if the value is a variable inside function, if so return its type
-            Method currentMethod = MethodScope.getCurrentMethod();
-            Variable variable = currentMethod.getVariable(variableValue);
-            if (variable != null)
-                return variable.getType();
-            return POSSIBLE_GLOBAL_VARIABLE;
-        }
-        return null;
+        Types valueType = VariableTypesUtils.deriveTypeFromValue(variableValue);
+        return VariableTypesUtils.areValueTypesEqual(variableType, valueType);
     }
 }

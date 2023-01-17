@@ -3,6 +3,8 @@ package oop.ex6.main;
 import oop.ex6.MethodScope;
 import oop.ex6.PossibleGlobalVariable;
 import oop.ex6.Variable;
+import oop.ex6.VariableTypesUtils;
+import oop.ex6.handlers.IfWhileHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,25 +19,29 @@ public class Sjavac {
             return false;
         Variable globalVariable =  globalVariables.get(possibleGlobalVariable.getName());
 
+        if (possibleGlobalVariable.isInCondition()) {
+            return globalVariable.isInitialized() && IfWhileHandler.isVariableTypeValid(globalVariable.getType());
+        }
+
         if (possibleGlobalVariable.isAssigned()) {
             // the possible variable is having something being assigned to it
             if (globalVariable.isFinal())
                 return false;
 
             if (!possibleGlobalVariable.hasType())
-                return areValueTypesEqual(globalVariable.getType(), possibleGlobalVariable.getValueType());
+                return VariableTypesUtils.areValueTypesEqual(globalVariable.getType(), possibleGlobalVariable.getValueType());
 
             if (!globalVariables.containsKey(possibleGlobalVariable.getValueName()))
                 return false;
             Variable globalVariableAssigned = globalVariables.get(possibleGlobalVariable.getValueName());
 
-            return globalVariableAssigned.isInitialized() && areValueTypesEqual(globalVariable.getType(),
+            return globalVariableAssigned.isInitialized() && VariableTypesUtils.areValueTypesEqual(globalVariable.getType(),
                     globalVariableAssigned.getType());
         }
 
         // the possible variable is being assigned to a different variable
         if (!possibleGlobalVariable.hasType())
-            return areValueTypesEqual(possibleGlobalVariable.getValueType(),
+            return VariableTypesUtils.areValueTypesEqual(possibleGlobalVariable.getValueType(),
                     globalVariable.getType());
 
         if (!globalVariables.containsKey(possibleGlobalVariable.getValueName()))
@@ -43,7 +49,7 @@ public class Sjavac {
         Variable globalVariableAssignedTo =
                 globalVariables.get(possibleGlobalVariable.getValueName());
         return (!globalVariableAssignedTo.isFinal())
-                && areValueTypesEqual(globalVariableAssignedTo.getType(), globalVariable.getType());
+                && VariableTypesUtils.areValueTypesEqual(globalVariableAssignedTo.getType(), globalVariable.getType());
     }
 
     private boolean checkGlobalVariableValidity() {

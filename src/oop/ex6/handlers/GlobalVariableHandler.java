@@ -3,10 +3,12 @@ package oop.ex6.handlers;
 import oop.ex6.Method;
 import oop.ex6.MethodScope;
 import oop.ex6.Variable;
+import oop.ex6.VariableTypesUtils;
+import oop.ex6.main.Types;
 
-public class GlobalVariableHandler {
+public class GlobalVariableHandler implements VariableHandler{
 
-    public boolean handleDeclaredVariable(String variableName, String variableType) {
+    public boolean handleDeclaredVariable(String variableName, Types variableType) {
         if (canVariableBeDeclared(variableName)) {
             Variable variable = new Variable(variableType, variableName, false, false);
             MethodScope.addGlobalVariable(variable);
@@ -25,9 +27,19 @@ public class GlobalVariableHandler {
     }
 
     public boolean handleInitializedVariable(String variableName,
-                                             String variableType, String variableValue) {
+                                             Types variableType, String variableValue) {
         if (canVariableBeInitialized(variableName, variableType, variableValue)) {
             Variable variable = new Variable(variableType, variableName, true, false);
+            MethodScope.addGlobalVariable(variable);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean handleFinalVariable(String variableName,
+                                       Types variableType, String variableValue) {
+        if (canVariableBeInitialized(variableName, variableType, variableValue)) {
+            Variable variable = new Variable(variableType, variableName, true, true);
             MethodScope.addGlobalVariable(variable);
             return true;
         }
@@ -43,35 +55,35 @@ public class GlobalVariableHandler {
         if (variable == null)
             return false;
 
-        if (isValueVariable(variableValue)) {
+        if (VariableTypesUtils.isValueVariable(variableValue)) {
             Variable variableToAssign = getGlobalVariable(variableValue);
             if (variableToAssign == null)
                 return false;
             return variableToAssign.isInitialized() && (!variable.isFinal())
-                    && areValueTypesEqual(variable.getType(), variableToAssign.getType());
+                    && VariableTypesUtils.areValueTypesEqual(variable.getType(), variableToAssign.getType());
         }
 
         // value is regular shape (primitive type), derive its type and return if equal
-        String valueType = deriveValueType(variableValue);
-        return ((!variable.isFinal()) && areValueTypesEqual(variable.getType(), valueType));
+        Types valueType = VariableTypesUtils.deriveTypeFromValue(variableValue);
+        return (!variable.isFinal()) && VariableTypesUtils.areValueTypesEqual(variable.getType(), valueType);
     }
 
     private boolean canVariableBeInitialized(String variableName,
-                                             String variableType, String variableValue) {
+                                             Types variableType, String variableValue) {
         if (getGlobalVariable(variableName) != null)
             return false;
 
-        if (isValueVariable(variableValue)) {
+        if (VariableTypesUtils.isValueVariable(variableValue)) {
             Variable variableToAssign = getGlobalVariable(variableValue);
             if (variableToAssign == null)
                 return false;
             return variableToAssign.isInitialized() &&
-                    areValueTypesEqual(variableType, variableToAssign.getType());
+                    VariableTypesUtils.areValueTypesEqual(variableType, variableToAssign.getType());
         }
 
         // value is regular shape (primitive type), derive its type and return if equal
-        String valueType = deriveValueType(variableValue);
-        return areValueTypesEqual(variableType, valueType);
+        Types valueType = VariableTypesUtils.deriveTypeFromValue(variableValue);
+        return VariableTypesUtils.areValueTypesEqual(variableType, valueType);
     }
 
     public Variable getGlobalVariable(String variableName) {
