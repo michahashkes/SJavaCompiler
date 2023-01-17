@@ -58,6 +58,8 @@ public class Parser {
         } catch (IOException e) {
             System.out.println(e.getMessage());
             throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return true;
     }
