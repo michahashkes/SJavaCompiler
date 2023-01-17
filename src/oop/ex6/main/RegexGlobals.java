@@ -46,13 +46,18 @@ public class RegexGlobals {
         finalMap.put(Types.CHAR, CHAR_FINAL_PARSER);
     }
 
-
-    public final static String NAME_FORMAT = "("+ "_*[a-zA-Z]+\\w*)";
-    public final static String INT_FORMAT = "("+NAME_FORMAT+"|[+-]?\\d+)";
-    public final static String DOUBLE_FORMAT =  "("+NAME_FORMAT+"|[+-]?.?\\d+.?\\d*)";
-    public final static String STRING_FORMAT =  "("+NAME_FORMAT+"|\".*\")";
-    public final static String BOOLEAN_FORMAT = "("+ DOUBLE_FORMAT+"|[+-]?\\d+|true|false)";
-    public final static String CHAR_FORMAT =  "("+NAME_FORMAT+"|'.')";
+    public final static String VARIABLE_NAME_REGEX = "_*[a-zA-Z]+\\w*";
+    public final static String INT_REGEX = "[+-]?\\d+";
+    public final static String DOUBLE_REGEX = "[-+]?\\d*\\.?\\d+";
+    public final static String STRING_REGEX = "\".*\"";
+    public final static String BOOLEAN_REGEX = DOUBLE_REGEX + "|" + INT_REGEX + "|true|false";
+    public final static String CHAR_REGEX = "'.'";
+    public final static String NAME_FORMAT = "(" + VARIABLE_NAME_REGEX + ")";
+    public final static String INT_FORMAT = "(" + NAME_FORMAT + "|" + INT_REGEX + ")";
+    public final static String DOUBLE_FORMAT =  "(" + NAME_FORMAT + "|" + DOUBLE_REGEX + ")";
+    public final static String STRING_FORMAT =  "(" + NAME_FORMAT + "|" + STRING_REGEX + ")";
+    public final static String BOOLEAN_FORMAT = "("+ NAME_FORMAT + "|" + BOOLEAN_REGEX + ")";
+    public final static String CHAR_FORMAT =  "(" + NAME_FORMAT + "|" + CHAR_REGEX + ")";
 
 
     //int

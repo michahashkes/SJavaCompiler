@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 public class MethodScope {
     static private boolean isInGlobalScope = true;
+    static private boolean isLastLineReturn = false;
     static private String currentMethod;
     static private final HashMap<String, Method> methods = new HashMap<>();
+    static private final HashMap<String, ArrayList<Variable>> methodCalls = new HashMap<>();
     static private final HashMap<String, Variable> globalVariables = new HashMap<>();
     static private final ArrayList<PossibleGlobalVariable> possibleGlobalVariables = new ArrayList<>();
 
@@ -42,11 +44,19 @@ public class MethodScope {
         return globalVariables;
     }
 
-    public static boolean isIsInGlobalScope() {
+    public static boolean isInGlobalScope() {
         return isInGlobalScope;
     }
 
-    public static void setIsInGlobalScope(boolean isInGlobalScope) {
+    public static void setInGlobalScope(boolean isInGlobalScope) {
         MethodScope.isInGlobalScope = isInGlobalScope;
+    }
+
+    public static boolean isLastLineReturn() {
+        return isLastLineReturn;
+    }
+
+    public static void setLastLineReturn(boolean isLastLineReturn) {
+        MethodScope.isLastLineReturn = isLastLineReturn;
     }
 }

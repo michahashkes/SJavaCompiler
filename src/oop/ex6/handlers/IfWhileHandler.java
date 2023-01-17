@@ -8,14 +8,18 @@ import java.util.regex.Matcher;
 public class IfWhileHandler {
 
     public boolean handleIfWhile(Matcher matcher) {
-        if (MethodScope.isIsInGlobalScope())
+        if (MethodScope.isInGlobalScope())
             return false;
 
-        for (int i = 1; i <= matcher.groupCount(); i++) {
-            String condition = matcher.group(i);
+        String[] conditions =
+                matcher.group(2).replaceAll("\\s+", " ").split("\\s*,\\s*");
+
+        for (String condition : conditions) {
             if (!isVariableConditionValid(condition))
                 return false;
         }
+        Method currentMethod = MethodScope.getCurrentMethod();
+        currentMethod.addScope();
         return true;
     }
 
