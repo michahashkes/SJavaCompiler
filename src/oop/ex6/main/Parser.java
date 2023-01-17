@@ -1,9 +1,6 @@
 package oop.ex6.main;
 
-import oop.ex6.handlers.GlobalVariableHandler;
-import oop.ex6.handlers.LineHandler;
-import oop.ex6.handlers.LocalVariableHandler;
-import oop.ex6.handlers.VariableHandler;
+import oop.ex6.handlers.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,7 +27,7 @@ public class Parser {
         Pattern p;
         Matcher m;
         boolean matched = false;
-        LineHandler lineHandler = new LineHandler(new VariableHandler());
+        LineHandler lineHandler = new LineHandler(new VariableHandler(new LocalVariableHandler(),new GlobalVariableHandler()));
         try (FileReader fileReader = new FileReader(fileName);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             while ((line = bufferedReader.readLine()) != null) {

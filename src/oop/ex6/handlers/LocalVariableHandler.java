@@ -3,12 +3,7 @@ package oop.ex6.handlers;
 import oop.ex6.*;
 import oop.ex6.main.Types;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static oop.ex6.main.RegexGlobals.NAME_FORMAT;
-
-public class LocalVariableHandler implements VariableHandler {
+public class LocalVariableHandler implements VariableHandlerInterface {
 
     public boolean handleDeclaredVariable(String variableName, Types variableType) {
         if (canVariableBeDeclared(variableName)) {

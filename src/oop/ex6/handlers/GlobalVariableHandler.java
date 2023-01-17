@@ -1,12 +1,11 @@
 package oop.ex6.handlers;
 
-import oop.ex6.Method;
 import oop.ex6.MethodScope;
 import oop.ex6.Variable;
 import oop.ex6.VariableTypesUtils;
 import oop.ex6.main.Types;
 
-public class GlobalVariableHandler implements VariableHandler{
+public class GlobalVariableHandler implements VariableHandlerInterface {
 
     public boolean handleDeclaredVariable(String variableName, Types variableType) {
         if (canVariableBeDeclared(variableName)) {

@@ -3,19 +3,16 @@ package oop.ex6.handlers;
 import oop.ex6.main.StatementTypes;
 import oop.ex6.main.Types;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 
 
 public class LineHandler {
 
-    private VariableHandler variableHandler;
+    private VariableHandlerInterface variableHandlerInterface;
     private GlobalVariableHandler globalVariableHandler;
 
-    public LineHandler(VariableHandler variableHandler) {
-        this.variableHandler = variableHandler;
+    public LineHandler(VariableHandlerInterface variableHandlerInterface) {
+        this.variableHandlerInterface = variableHandlerInterface;
     }
 
 
@@ -48,7 +45,7 @@ public class LineHandler {
             String[] linesAndValues = lines[i].split("=");
             if (linesAndValues.length != 2) throw new Exception("regex error");
             if (i == lines.length - 1) linesAndValues[1] = linesAndValues[1].replace(";", "");
-            variableHandler.handleAssignedVariable(linesAndValues[0], linesAndValues[1]);
+            variableHandlerInterface.handleAssignedVariable(linesAndValues[0], linesAndValues[1]);
         }
     }
 
@@ -63,10 +60,10 @@ public class LineHandler {
             lines[i] = lines[i].replaceAll(" ", "");
             String[] linesAndValues = lines[i].split("=");
             if (isFinal && linesAndValues.length != 2) throw new Exception("regex error");
-            if (isFinal) variableHandler.handleFinalVariable(linesAndValues[0], lineTypes, linesAndValues[1]);
-            else if (linesAndValues.length == 2) variableHandler.handleInitializedVariable(linesAndValues[0], lineTypes,
+            if (isFinal) variableHandlerInterface.handleFinalVariable(linesAndValues[0], lineTypes, linesAndValues[1]);
+            else if (linesAndValues.length == 2) variableHandlerInterface.handleInitializedVariable(linesAndValues[0], lineTypes,
                     linesAndValues[1]);
-            else variableHandler.handleDeclaredVariable(linesAndValues[0], lineTypes);
+            else variableHandlerInterface.handleDeclaredVariable(linesAndValues[0], lineTypes);
         }
 
 
