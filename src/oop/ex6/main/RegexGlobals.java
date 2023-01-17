@@ -45,12 +45,11 @@ public class RegexGlobals {
 
 
     public final static String NAME_FORMAT = "(_*[a-zA-Z]+\\w*)";
-    public final static String INT_FORMAT = "(" + NAME_FORMAT + "|[+-]?\\d+)";
-    public final static String DOUBLE_FORMAT = "(" + NAME_FORMAT + "|[+-]?.(?\\d+.?\\d*)";
-    public final static String STRING_FORMAT = "(" + NAME_FORMAT + "|\".*\")";
-
-    public final static String BOOLEAN_FORMAT = "(" + DOUBLE_FORMAT + "|[+-]?\\d+|true|false)";
-    public final static String CHAR_FORMAT = "(" + NAME_FORMAT + "|'.')";
+    public final static String INT_FORMAT = "("+NAME_FORMAT+"|[+-]?\\d+)";
+    public final static String DOUBLE_FORMAT = "("+NAME_FORMAT+"|[+-]?.(?\\d+.?\\d*)";
+    public final static String STRING_FORMAT = "("+NAME_FORMAT+"|\".*\")";
+    public final static String BOOLEAN_FORMAT = "("+DOUBLE_FORMAT+"|[+-]?\\d+|true|false|)";
+    public final static String CHAR_FORMAT = "("+NAME_FORMAT+"|'.')";
 
 
     //int
