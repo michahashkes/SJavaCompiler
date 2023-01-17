@@ -8,7 +8,7 @@ public class RegexGlobals {
     }
 
 
-    private final static String NAME_FORMAT = "(_*[a-zA-Z]+\\w*)";
+    public final static String NAME_FORMAT = "(_*[a-zA-Z]+\\w*)";
     private final static String INT_FORMAT = "("+NAME_FORMAT+"|[+-]?\\d+)";
     private final static String DOUBLE_FORMAT = "("+NAME_FORMAT+"|[+-]?.(?\\d+.?\\d*)";
     private final static String STRING_FORMAT = "("+NAME_FORMAT+"|\".*\")";
