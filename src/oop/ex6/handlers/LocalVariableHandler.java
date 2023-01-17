@@ -85,8 +85,8 @@ public class LocalVariableHandler implements VariableHandler {
                     // variable value is not local, add it to possible list and
                     // return true because we don't know type
                     PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(variableValue);
-                    possibleGlobalVariableAssigned.setAssignedTo(true);
-                    possibleGlobalVariableAssigned.setTypeAssignedTo(variable.getType());
+                    possibleGlobalVariableAssigned.setHasType(true);
+                    possibleGlobalVariableAssigned.setValueType(variable.getType());
                     MethodScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);
                     return true;
                 }
@@ -111,10 +111,9 @@ public class LocalVariableHandler implements VariableHandler {
                 // variable value is not local, add both it and variable to possible list and
                 // return true because we don't know types
                 PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(variableValue);
-                possibleGlobalVariableAssigned.setAssignedTo(true);
-                possibleGlobalVariableAssigned.setVariableNameAssignedTo(variableName);
+                possibleGlobalVariableAssigned.setValueName(variableName);
                 MethodScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);
-                possibleGlobalVariableToAssign.setVariableNameAssigned(variableValue);
+                possibleGlobalVariableToAssign.setValueName(variableValue);
                 MethodScope.addPossibleGlobalVariable(possibleGlobalVariableToAssign);
                 return true;
             }
@@ -122,13 +121,15 @@ public class LocalVariableHandler implements VariableHandler {
             if (!variableToAssign.isInitialized())
                 return false;
             // value initialized, add variable to possible list
-            possibleGlobalVariableToAssign.setTypeAssigned(variableToAssign.getType());
+            possibleGlobalVariableToAssign.setHasType(true);
+            possibleGlobalVariableToAssign.setValueType(variableToAssign.getType());
             MethodScope.addPossibleGlobalVariable(possibleGlobalVariableToAssign);
             return true;
         }
         // value is primitive type, derive its type and add variable to possible list
         String valueType = deriveValueType(variableValue);
-        possibleGlobalVariableToAssign.setTypeAssigned(valueType);
+        possibleGlobalVariableToAssign.setHasType(true);
+        possibleGlobalVariableToAssign.setValueType(valueType);
         MethodScope.addPossibleGlobalVariable(possibleGlobalVariableToAssign);
         return true;
     }
@@ -146,8 +147,8 @@ public class LocalVariableHandler implements VariableHandler {
                 // variable value is not local, add it to possible list and
                 // return true because we don't know type
                 PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(variableValue);
-                possibleGlobalVariableAssigned.setAssignedTo(true);
-                possibleGlobalVariableAssigned.setTypeAssignedTo(variableType);
+                possibleGlobalVariableAssigned.setHasType(true);
+                possibleGlobalVariableAssigned.setValueType(variableType);
                 MethodScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);
                 return true;
             }
