@@ -1,13 +1,23 @@
 package oop.ex6.handlers;
 
 import oop.ex6.main.LineTypes;
-
-import java.util.HashSet;
+import oop.ex6.main.LineTypesDeclare;
+import oop.ex6.main.StatementTypes;
 
 public class LineHandler {
-    private final HashSet<LineTypes> declareSet = new HashSet<LineTypes>();
-    private final HashSet<LineTypes> assignSet = new HashSet<LineTypes>();
 
-    public static void handleLine(LineTypes key, String line) {
+
+    public static void handleLine(StatementTypes statementTypes, LineTypes lineTypes, String line) {
+        switch (statementTypes){
+            case ASSIGN :
+                break;
+            case FINAL:
+                break;
+            case DECLARE:
+                break;
+            case IF
+
+        }
+
     }
 }

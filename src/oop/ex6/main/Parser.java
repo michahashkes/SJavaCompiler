@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class Parser {
     private final String fileName;
-    private final HashMap<LineTypes, String> lineTypesRegexMap;
+    private final  HashMap<StatementTypes, HashMap<LineTypes, String>> lineTypesRegexMap;
 
     public Parser(String fileName) {
         this.fileName = fileName;
@@ -28,12 +28,14 @@ public class Parser {
         try (FileReader fileReader = new FileReader(fileName);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             while ((line = bufferedReader.readLine()) != null) {
-                for (Map.Entry<LineTypes, String> entry : lineTypesRegexMap.entrySet()) {
-                    p = Pattern.compile(entry.getValue());
-                    m = p.matcher(line);
-                    if (m.matches()) {
-                        matched = true;
-                        LineHandler.handleLine(entry.getKey(), line);
+                for (Map.Entry<StatementTypes,HashMap<LineTypes, String>> entry : lineTypesRegexMap.entrySet()) {
+                    for(Map.Entry<LineTypes, String> lineAndType: entry.getValue().entrySet()){
+                        p = Pattern.compile(lineAndType.getValue());
+                        m = p.matcher(line);
+                        if (m.matches()) {
+                            matched = true;
+                            LineHandler.handleLine(entry.getKey(),lineAndType.getKey(),lineAndType.getValue());
+                        }
                     }
                 }
                 if (!matched)
