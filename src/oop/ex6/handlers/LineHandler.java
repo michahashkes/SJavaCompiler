@@ -3,6 +3,7 @@ package oop.ex6.handlers;
 import oop.ex6.main.StatementTypes;
 import oop.ex6.main.Types;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 
 
@@ -16,12 +17,15 @@ public class LineHandler {
     }
 
 
-    public void handleLine(StatementTypes statementTypes, Types lineTypes, Matcher line) {
+    public void handleLine(StatementTypes statementTypes, Types lineTypes, Matcher line) throws Exception {
         switch (statementTypes){
             case ASSIGN :
-                line.group(2).replaceAll("\\s+", " ").split("\\s*,\\s*");
-                for (int i = 1; i < line.groupCount(); i++) {
-                    variableHandler.handleAssignedVariable(line.group(i),,lineTypes);
+                String[] lines = line.group(0).replaceAll("\\s+", " ").split("\\s*,\\s*");
+                for (int i = 1; i < lines.length; i++) {
+                    String[] linesAndValues = lines[i].split("=");
+                    if (linesAndValues.length != 2) throw new Exception("regex error");
+                    if (i == lines.length -1) linesAndValues[1].replace(";","");
+                    variableHandler.handleAssignedVariable(linesAndValues[0],linesAndValues[1]);
                 }
                 break;
             case FINAL:
