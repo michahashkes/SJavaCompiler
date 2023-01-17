@@ -1,11 +1,13 @@
 package oop.ex6;
 
+import oop.ex6.main.Types;
+
 public class PossibleGlobalVariable {
     private String name;
     private boolean hasType = false;
     private boolean isAssigned = false;
-//    private boolean isAssignedTo = false;
-    private String valueType = "";
+    private boolean isInCondition = false;
+    private Types valueType;
     private String valueName = "";
 
     public PossibleGlobalVariable(String name) {
@@ -32,11 +34,19 @@ public class PossibleGlobalVariable {
         this.hasType = hasType;
     }
 
-    public String getValueType() {
+    public boolean isInCondition() {
+        return isInCondition;
+    }
+
+    public void setInCondition(boolean inCondition) {
+        isInCondition = inCondition;
+    }
+
+    public Types getValueType() {
         return valueType;
     }
 
-    public void setValueType(String valueType) {
+    public void setValueType(Types valueType) {
         this.valueType = valueType;
     }
 

@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public class RegexScopes {
 
-    public static final String METHOD_NAME = "([a-zA-Z]+\\w*);";
-    public static final String PARAMETERS_TYPES = "(int|double|String|boolean|char)";
+    public static final String METHOD_NAME = "([a-zA-Z]+\\w*)";
+    public static final String PARAMETERS_TYPES = "int|double|String|boolean|char";
 
     public static final String METHOD_CALL = "\\s*"+METHOD_NAME+"\\s*\\("+RegexGlobals.NAME_FORMAT+"(\\s*,\\s*"+
             RegexGlobals.NAME_FORMAT+")*\\s*\\)\\s*;";
