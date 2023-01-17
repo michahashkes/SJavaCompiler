@@ -58,14 +58,28 @@ public class GlobalVariableHandler {
 
     private boolean canVariableBeInitialized(String variableName,
                                              String variableType, String variableValue) {
+        if (getGlobalVariable(variableName) != null)
+            return false;
 
+        if (isValueVariable(variableValue)) {
+            Variable variableToAssign = getGlobalVariable(variableValue);
+            if (variableToAssign == null)
+                return false;
+            return variableToAssign.isInitialized() &&
+                    areValueTypesEqual(variableType, variableToAssign.getType());
+        }
+
+        // value is regular shape (primitive type), derive its type and return if equal
+        String valueType = deriveValueType(variableValue);
+        return areValueTypesEqual(variableType, valueType);
     }
 
     public Variable getGlobalVariable(String variableName) {
-        for (Variable variable : MethodScope.getGlobalVariables()) {
-            if (variableName.equals(variable.getName()))
-                return variable;
-        }
-        return null;
+        return MethodScope.getGlobalVariables().get(variableName);
+//        for (Variable variable : MethodScope.getGlobalVariables()) {
+//            if (variableName.equals(variable.getName()))
+//                return variable;
+//        }
+//        return null;
     }
 }

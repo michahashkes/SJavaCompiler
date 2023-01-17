@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class MethodScope {
     static private String currentMethod;
     static private HashMap<String, Method> Methods;
-    static private ArrayList<Variable> globalVariables;
+    static private HashMap<String, Variable> globalVariables;
     static private ArrayList<PossibleGlobalVariable> possibleGlobalVariables;
 
     static public void setCurrentMethod(String method) {
@@ -30,10 +30,10 @@ public class MethodScope {
     }
 
     public static void addGlobalVariable(Variable variable) {
-        globalVariables.add(variable);
+        globalVariables.put(variable.getName(), variable);
     }
 
-    public static ArrayList<Variable> getGlobalVariables() {
+    public static HashMap<String, Variable> getGlobalVariables() {
         return globalVariables;
     }
 }

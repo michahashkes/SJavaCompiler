@@ -2,24 +2,18 @@ package oop.ex6;
 
 public class PossibleGlobalVariable {
     private String name;
-    private boolean isUsed = false;
+    private boolean hasType = false;
     private boolean isAssigned = false;
-    private boolean isAssignedTo = false;
-    private String typeAssigned = "";
-    private String variableNameAssigned = "";
-    private String typeAssignedTo = "";
-    private String variableNameAssignedTo = "";
+//    private boolean isAssignedTo = false;
+    private String valueType = "";
+    private String valueName = "";
 
     public PossibleGlobalVariable(String name) {
         this.name = name;
     }
 
-    public boolean isUsed() {
-        return isUsed;
-    }
-
-    public void setUsed(boolean used) {
-        isUsed = used;
+    public String getName() {
+        return name;
     }
 
     public boolean isAssigned() {
@@ -30,43 +24,27 @@ public class PossibleGlobalVariable {
         isAssigned = assigned;
     }
 
-    public String getTypeAssignedTo() {
-        return typeAssignedTo;
+    public boolean hasType() {
+        return hasType;
     }
 
-    public void setTypeAssignedTo(String typeAssignedTo) {
-        this.typeAssignedTo = typeAssignedTo;
+    public void setHasType(boolean hasType) {
+        this.hasType = hasType;
     }
 
-    public String getVariableNameAssignedTo() {
-        return variableNameAssignedTo;
+    public String getValueType() {
+        return valueType;
     }
 
-    public void setVariableNameAssignedTo(String variableAssignedTo) {
-        this.variableNameAssignedTo = variableAssignedTo;
+    public void setValueType(String valueType) {
+        this.valueType = valueType;
     }
 
-    public boolean isAssignedTo() {
-        return isAssignedTo;
+    public String getValueName() {
+        return valueName;
     }
 
-    public void setAssignedTo(boolean assignedTo) {
-        isAssignedTo = assignedTo;
-    }
-
-    public String getTypeAssigned() {
-        return typeAssigned;
-    }
-
-    public void setTypeAssigned(String typeAssigned) {
-        this.typeAssigned = typeAssigned;
-    }
-
-    public String getVariableNameAssigned() {
-        return variableNameAssigned;
-    }
-
-    public void setVariableNameAssigned(String variableNameAssigned) {
-        this.variableNameAssigned = variableNameAssigned;
+    public void setValueName(String valueName) {
+        this.valueName = valueName;
     }
 }
