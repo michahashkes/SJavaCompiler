@@ -19,7 +19,8 @@ public class LineHandler {
     public void handleLine(StatementTypes statementTypes, Types lineTypes, Matcher line) {
         switch (statementTypes){
             case ASSIGN :
-                for (int i = 0; i < line.groupCount(); i++) {
+                line.group(2).replaceAll("\\s+", " ").split("\\s*,\\s*");
+                for (int i = 1; i < line.groupCount(); i++) {
                     variableHandler.handleAssignedVariable(line.group(i),,lineTypes);
                 }
                 break;
