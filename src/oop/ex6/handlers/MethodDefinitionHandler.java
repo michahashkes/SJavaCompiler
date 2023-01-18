@@ -20,11 +20,11 @@ public class MethodDefinitionHandler {
             return false;
 
         String[] methodParameters;
-        if (matcher.groupCount() < 2)
+        if (matcher.groupCount() < 2 || matcher.group(2) == null)
             methodParameters = new String[0];
         else
             methodParameters =
-                matcher.group(2).replaceAll("\\s+", " ").split("\\s*,\\s*");
+                matcher.group(2).replaceAll("\\s+", " ").trim().split("\\s*,\\s*");
 
         ArrayList<Variable> parameters = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class MethodDefinitionHandler {
             String variableName = isFinal ? parameterValues[2] : parameterValues[1];
             if (isAlreadyParameter(variableName, parameters))
                 return false;
-            Variable parameterVariable = new Variable(variableType, variableName, false, isFinal);
+            Variable parameterVariable = new Variable(variableType, variableName, true, isFinal);
             parameters.add(parameterVariable);
         }
 

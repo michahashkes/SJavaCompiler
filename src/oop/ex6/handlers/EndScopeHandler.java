@@ -14,6 +14,8 @@ public class EndScopeHandler {
             if (!MethodScope.isLastLineReturn())
                 return false;
             MethodScope.setInGlobalScope(true);
+            currentMethod.setFunctionClosed(true);
+            return true;
         }
 
         currentMethod.removeScope();

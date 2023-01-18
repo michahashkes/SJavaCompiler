@@ -31,11 +31,16 @@ public class RegexGlobals {
     }
 
     private static void putAssignMap() {
-        assignMap.put(Types.INT, INT_ASSIGNMENT_PARSER);
-        assignMap.put(Types.DOUBLE, DOUBLE_ASSIGNMENT_PARSER);
-        assignMap.put(Types.STRING, STRING_ASSIGNMENT_PARSER);
-        assignMap.put(Types.BOOLEAN, BOOLEAN_ASSIGNMENT_PARSER);
-        assignMap.put(Types.CHAR, CHAR_ASSIGNMENT_PARSER);
+//        assignMap.put(Types.INT, INT_ASSIGNMENT_PARSER);
+//        assignMap.put(Types.DOUBLE, DOUBLE_ASSIGNMENT_PARSER);
+//        assignMap.put(Types.STRING, STRING_ASSIGNMENT_PARSER);
+//        assignMap.put(Types.BOOLEAN, BOOLEAN_ASSIGNMENT_PARSER);
+//        assignMap.put(Types.CHAR, CHAR_ASSIGNMENT_PARSER);
+        assignMap.put(Types.INT, ASSIGNMENT);
+        assignMap.put(Types.DOUBLE, ASSIGNMENT);
+        assignMap.put(Types.STRING, ASSIGNMENT);
+        assignMap.put(Types.BOOLEAN, ASSIGNMENT);
+        assignMap.put(Types.CHAR, ASSIGNMENT);
     }
 
     private static void putFinalMap() {
@@ -59,41 +64,49 @@ public class RegexGlobals {
     public final static String BOOLEAN_FORMAT = "("+ NAME_FORMAT + "|" + BOOLEAN_REGEX + ")";
     public final static String CHAR_FORMAT =  "(" + NAME_FORMAT + "|" + CHAR_REGEX + ")";
 
+    public final static String ALL_FORMAT = "(" + VARIABLE_NAME_REGEX + "|" + BOOLEAN_REGEX + "|" +
+    CHAR_REGEX + "|" + STRING_REGEX + ")";
+
 
     //int
-    public final static String INT_FINAL_PARSER = "\\s*final\\s+int\\s+(" + NAME_FORMAT + "\\s*=\\s*" + INT_FORMAT +
-            ")(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + INT_FORMAT + ")*\\s*;";
-    public final static String INT_DECLARATION_INIT_PARSER = "\\s*int\\s+" + NAME_FORMAT + "(\\s*=\\s*" + INT_FORMAT +
-            ")?\\s*(\\s*,\\s*" + NAME_FORMAT + "(\\s*=\\s*" + INT_FORMAT + ")?)*\\s*;";
+    public final static String INT_FINAL_PARSER = "\\s*(final\\s+int)\\s+((" + NAME_FORMAT + "\\s*=\\s*" + INT_FORMAT +
+            ")(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + INT_FORMAT + ")*)\\s*;\\s*";
+    public final static String INT_DECLARATION_INIT_PARSER = "\\s*(int)\\s+(" + NAME_FORMAT + "(\\s*=\\s*" + INT_FORMAT +
+            ")?\\s*(\\s*,\\s*" + NAME_FORMAT + "(\\s*=\\s*" + INT_FORMAT + ")?)*)\\s*;\\s*";
     public final static String INT_ASSIGNMENT_PARSER = "\\s*(" + NAME_FORMAT + "\\s*=\\s*" + INT_FORMAT + ")(\\s*,\\s*" +
-            NAME_FORMAT + "\\s*=\\s*" + INT_FORMAT + "\\s*)*\\s*;";
+            NAME_FORMAT + "\\s*=\\s*" + INT_FORMAT + "\\s*)*\\s*;\\s*";
     //double
-    public final static String DOUBLE_FINAL_PARSER = "\\s*final\\s+double\\s+(" + NAME_FORMAT + "\\s*=\\s*" + DOUBLE_FORMAT +
-            ")\\s*(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + DOUBLE_FORMAT + ")*\\s*;";
-    public final static String DOUBLE_DECLARATION_INIT_PARSER ="\\s*double\\s+" + NAME_FORMAT + "(\\s*=\\s*" + DOUBLE_FORMAT +
-            ")?\\s*(\\s*,\\s*" + NAME_FORMAT + "(\\s*=\\s*" + DOUBLE_FORMAT + ")?)*\\s*;";
+    public final static String DOUBLE_FINAL_PARSER = "\\s*(final\\s+double)\\s+((" + NAME_FORMAT + "\\s*=\\s*" + DOUBLE_FORMAT +
+            ")\\s*(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + DOUBLE_FORMAT + ")*)\\s*;\\s*";
+    public final static String DOUBLE_DECLARATION_INIT_PARSER ="\\s*(double)\\s+(" + NAME_FORMAT + "(\\s*=\\s*" + DOUBLE_FORMAT +
+            ")?\\s*(\\s*,\\s*" + NAME_FORMAT + "(\\s*=\\s*" + DOUBLE_FORMAT + ")?)*)\\s*;\\s*";
     public final static String DOUBLE_ASSIGNMENT_PARSER = "\\s*(" + NAME_FORMAT + "\\s*=\\s*" + DOUBLE_FORMAT +
-            ")\\s*(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + DOUBLE_FORMAT + "\\s*)*;";
+            ")\\s*(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + DOUBLE_FORMAT + "\\s*)*;\\s*";
     //string
-    public final static String STRING_FINAL_PARSER = "\\s*final\\s+String\\s+(" + NAME_FORMAT + "\\s*=\\s*" + STRING_FORMAT +
-            ")(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + STRING_FORMAT + ")*\\s*;";
+    public final static String STRING_FINAL_PARSER = "\\s*(final\\s+String)\\s+((" + NAME_FORMAT + "\\s*=\\s*" + STRING_FORMAT +
+            ")(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + STRING_FORMAT + ")*)\\s*;\\s*";
     public final static String STRING_ASSIGNMENT_PARSER = "\\s*(" + NAME_FORMAT + "\\s*=\\s*" + STRING_FORMAT + ")\\s*(\\s*," +
-            "\\s*" + NAME_FORMAT + "\\s*=\\s*" + STRING_FORMAT + "\\s*)*;";
-    public final static String STRING_DECLARATION_INIT_PARSER ="\\s*String\\s+" + NAME_FORMAT + "(\\s*=\\s*" + STRING_FORMAT +
-            ")?\\s*(\\s*,\\s*" + NAME_FORMAT + "(\\s*=\\s*" + STRING_FORMAT + ")?)*\\s*;";
+            "\\s*" + NAME_FORMAT + "\\s*=\\s*" + STRING_FORMAT + "\\s*)*;\\s*";
+    public final static String STRING_DECLARATION_INIT_PARSER ="\\s*(String)\\s+(" + NAME_FORMAT + "(\\s*=\\s*" + STRING_FORMAT +
+            ")?\\s*(\\s*,\\s*" + NAME_FORMAT + "(\\s*=\\s*" + STRING_FORMAT + ")?)*)\\s*;\\s*";
     //boolean
-    public final static String BOOLEAN_FINAL_PARSER = "\\s*final\\s+boolean\\s+(" + NAME_FORMAT + "\\s*=\\s*" + BOOLEAN_FORMAT +
-            ")(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + BOOLEAN_FORMAT + ")*\\s*;";
+    public final static String BOOLEAN_FINAL_PARSER = "\\s*(final\\s+boolean)\\s+((" + NAME_FORMAT + "\\s*=\\s*" + BOOLEAN_FORMAT +
+            ")(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + BOOLEAN_FORMAT + ")*)\\s*;\\s*";
     public final static String BOOLEAN_ASSIGNMENT_PARSER = "\\s*(" + NAME_FORMAT + "\\s*=\\s*" + BOOLEAN_FORMAT + ")\\s*(\\s*," +
-            "\\s*" + NAME_FORMAT + "\\s*=\\s*" + BOOLEAN_FORMAT + "\\s*)*;";
-    public final static String BOOLEAN_DECLARATION_INIT_PARSER = "\\s*boolean\\s+" + NAME_FORMAT + "(\\s*=\\s*" + BOOLEAN_FORMAT +
-            ")?\\s*(\\s*,\\s*" + NAME_FORMAT + "(\\s*=\\s*" + BOOLEAN_FORMAT + ")?)*\\s*;";
+            "\\s*" + NAME_FORMAT + "\\s*=\\s*" + BOOLEAN_FORMAT + "\\s*)*;\\s*";
+    public final static String BOOLEAN_DECLARATION_INIT_PARSER = "\\s*(boolean)\\s+(" + NAME_FORMAT + "(\\s*=\\s*" + BOOLEAN_FORMAT +
+            ")?\\s*(\\s*,\\s*" + NAME_FORMAT + "(\\s*=\\s*" + BOOLEAN_FORMAT + ")?)*)\\s*;\\s*";
     //char
-    public final static String CHAR_FINAL_PARSER = "\\s*final\\s+char\\s+(" + NAME_FORMAT + "\\s*=\\s*" + CHAR_FORMAT +
-            ")(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + CHAR_FORMAT + ")*\\s*;";
+    public final static String CHAR_FINAL_PARSER = "\\s*(final\\s+char)\\s+((" + NAME_FORMAT + "\\s*=\\s*" + CHAR_FORMAT +
+            ")(\\s*,\\s*" + NAME_FORMAT + "\\s*=\\s*" + CHAR_FORMAT + ")*)\\s*;\\s*";
     public final static String CHAR_ASSIGNMENT_PARSER = "\\s*(" + NAME_FORMAT + "\\s*=\\s*" + CHAR_FORMAT + ")\\s*(\\s*," +
-            "\\s*" + NAME_FORMAT + "\\s*=\\s*" + CHAR_FORMAT + "\\s*)*;";
-    public final static String CHAR_DECLARATION_INIT_PARSER = "\\s*char\\s+" + NAME_FORMAT + "(\\s*=\\s*" + CHAR_FORMAT +
-            ")?\\s*(\\s*,\\s*" + NAME_FORMAT + "(\\s*=\\s*" + CHAR_FORMAT + ")?)*\\s*;";
+            "\\s*" + NAME_FORMAT + "\\s*=\\s*" + CHAR_FORMAT + "\\s*)*;\\s*";
+    public final static String CHAR_DECLARATION_INIT_PARSER = "\\s*(char)\\s+(" + NAME_FORMAT + "(\\s*=\\s*" + CHAR_FORMAT +
+            ")?\\s*(\\s*,\\s*" + NAME_FORMAT + "(\\s*=\\s*" + CHAR_FORMAT + ")?)*)\\s*;\\s*";
+
+    public final static String ASSIGNMENT = "\\s*(" + VARIABLE_NAME_REGEX + "\\s*=\\s*" + ALL_FORMAT + ")\\s*(\\s*," +
+            "\\s*" + VARIABLE_NAME_REGEX + "\\s*=\\s*" + ALL_FORMAT + "\\s*)*;\\s*";
+
+
 
 }

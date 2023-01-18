@@ -46,7 +46,7 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
     }
 
     private boolean canVariableBeDeclared(String variableName) {
-        return getGlobalVariable(variableName) != null;
+        return getGlobalVariable(variableName) == null;
     }
 
     private boolean canVariableBeAssigned(String variableName, String variableValue) {

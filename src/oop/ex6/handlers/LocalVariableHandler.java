@@ -31,7 +31,8 @@ public class LocalVariableHandler implements VariableHandlerInterface {
             Method currentMethod = MethodScope.getCurrentMethod();
             Variable variable = currentMethod.getVariable(variableName);
             if (variable == null) { // case of possible global variable, add it for use
-                variable = new Variable(Types.POSSIBLE_VARIABLE, variableName, true, false);
+                variable = new Variable(Types.POSSIBLE_GLOBAL_VARIABLE_INITIALIZED,
+                        variableName, true, false);
                 currentMethod.addVariable(variable);
             } else {
                 variable.setInitialized();
@@ -90,7 +91,7 @@ public class LocalVariableHandler implements VariableHandlerInterface {
             }
             // value is regular shape (primitive type), derive its type and return if equal
             Types valueType = VariableTypesUtils.deriveTypeFromValue(variableValue);
-            return ((!variable.isFinal()) && VariableTypesUtils.areValueTypesEqual(variable.getType(), valueType));
+            return (!variable.isFinal()) && VariableTypesUtils.areValueTypesEqual(variable.getType(), valueType);
         }
 
         // variable is not local, could be global

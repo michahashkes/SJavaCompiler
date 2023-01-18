@@ -9,6 +9,7 @@ public class Method {
     private ArrayList<Variable> parameters;
     private final HashMap<Integer, ArrayList<Variable>> variablesInScopesMap = new HashMap<>();
     private int currentScope = 0;
+    private boolean functionClosed = false;
 
     public Method(String name, ArrayList<Variable> parameters) {
         this.name = name;
@@ -66,5 +67,13 @@ public class Method {
                 return variable;
         }
         return null;
+    }
+
+    public boolean isFunctionClosed() {
+        return functionClosed;
+    }
+
+    public void setFunctionClosed(boolean functionClosed) {
+        this.functionClosed = functionClosed;
     }
 }

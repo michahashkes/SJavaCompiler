@@ -1,5 +1,7 @@
 package oop.ex6;
 
+import oop.ex6.main.Types;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,7 +10,7 @@ public class MethodScope {
     static private boolean isLastLineReturn = false;
     static private String currentMethod;
     static private final HashMap<String, Method> methods = new HashMap<>();
-    static private final HashMap<String, ArrayList<Variable>> methodCalls = new HashMap<>();
+    static private final HashMap<String, MethodCall> methodCalls = new HashMap<>();
     static private final HashMap<String, Variable> globalVariables = new HashMap<>();
     static private final ArrayList<PossibleGlobalVariable> possibleGlobalVariables = new ArrayList<>();
 
@@ -26,6 +28,14 @@ public class MethodScope {
 
     public static HashMap<String, Method> getMethods() {
         return methods;
+    }
+
+    public static void addMethodCall(String method, MethodCall methodCall) {
+        methodCalls.put(method, methodCall);
+    }
+
+    public static HashMap<String, MethodCall> getMethodCalls() {
+        return methodCalls;
     }
 
     public static ArrayList<PossibleGlobalVariable> getPossibleGlobalVariables() {
@@ -58,5 +68,15 @@ public class MethodScope {
 
     public static void setLastLineReturn(boolean isLastLineReturn) {
         MethodScope.isLastLineReturn = isLastLineReturn;
+    }
+
+    public static void startScriptScope() {
+        isInGlobalScope = true;
+        isLastLineReturn = false;
+        currentMethod = "";
+        methods.clear();
+        methodCalls.clear();
+        globalVariables.clear();
+        possibleGlobalVariables.clear();
     }
 }

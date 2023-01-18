@@ -12,10 +12,10 @@ public class IfWhileHandler {
             return false;
 
         String[] conditions =
-                matcher.group(2).replaceAll("\\s+", " ").split("\\s*,\\s*");
+                matcher.group(2).replaceAll("\\s*", "").trim().split("\\s*\\|\\||&&\\s*");
 
         for (String condition : conditions) {
-            if (!isVariableConditionValid(condition))
+            if (!isConditionValid(condition))
                 return false;
         }
         Method currentMethod = MethodScope.getCurrentMethod();
@@ -23,27 +23,36 @@ public class IfWhileHandler {
         return true;
     }
 
-    private boolean isVariableConditionValid(String condition) {
-        if (!VariableTypesUtils.isValueVariable(condition))
-            return true;
+    private boolean isConditionValid(String condition) {
+//        if (!VariableTypesUtils.isValueVariable(condition))
+//            return true;
 
-        Method currentMethod = MethodScope.getCurrentMethod();
-        Variable variable = currentMethod.getVariable(condition);
+        Types conditionType = VariableTypesUtils.deriveTypeFromValue(condition);
 
-        if (variable != null) {
-            if (variable.getType() == Types.POSSIBLE_VARIABLE) {
-                PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(variable.getName());
-                possibleGlobalVariableAssigned.setInCondition(true);
-                MethodScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);
-                return true;
+        if (conditionType == Types.POSSIBLE_VARIABLE) {
+            Method currentMethod = MethodScope.getCurrentMethod();
+            Variable variable = currentMethod.getVariable(condition);
+
+            if (variable != null) {
+                if (variable.getType() == Types.POSSIBLE_GLOBAL_VARIABLE_INITIALIZED) {
+                    // variable exists, but it is probably global variable
+                    PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(variable.getName());
+                    possibleGlobalVariableAssigned.setInCondition(true);
+                    possibleGlobalVariableAssigned.setInitializedLocally(variable.isInitialized());
+                    MethodScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);
+                    return true;
+                }
+                return variable.isInitialized() && isVariableTypeValid(variable.getType());
             }
-            return variable.isInitialized() && isVariableTypeValid(variable.getType());
+
+            // could be global variable, check for later
+            PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(condition);
+            possibleGlobalVariableAssigned.setInCondition(true);
+            MethodScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);
+            return true;
         }
 
-        PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(condition);
-        possibleGlobalVariableAssigned.setInCondition(true);
-        MethodScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);
-        return true;
+        return isVariableTypeValid(conditionType);
     }
 
     static public boolean isVariableTypeValid(Types variableType) {

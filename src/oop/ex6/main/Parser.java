@@ -27,17 +27,20 @@ public class Parser {
         Pattern p;
         Matcher m;
         boolean matched = false;
-        LineHandler lineHandler = new LineHandler(new VariableHandler(new LocalVariableHandler(),new GlobalVariableHandler()));
+        LineHandler lineHandler = new LineHandler();
         try (FileReader fileReader = new FileReader(fileName);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             while ((line = bufferedReader.readLine()) != null) {
+                matched = false;
                 for (Map.Entry<StatementTypes,HashMap<Types, String>> entry : lineTypesRegexMap.entrySet()) {
                     for(Map.Entry<Types, String> lineAndType: entry.getValue().entrySet()){
                         p = Pattern.compile(lineAndType.getValue());
                         m = p.matcher(line);
                         if (m.matches()) {
                             matched = true;
-                            lineHandler.handleLine(entry.getKey(),lineAndType.getKey(),m);
+                            if (!lineHandler.handleLine(entry.getKey(),lineAndType.getKey(),m))
+                                throw new Exception("Illegal Variables");
+                            break;
                         }
                     }
                 }
@@ -46,11 +49,13 @@ public class Parser {
                     m = p.matcher(line);
                     if (m.matches()) {
                         matched = true;
-                        lineHandler.handleLine(lineAndType.getKey(),null,m);
+                        if (!lineHandler.handleLine(lineAndType.getKey(),null,m))
+                            throw new Exception("Illegal Scopes");
+                        break;
                     }
                 }
                 if (!matched)
-                    return false;
+                    throw new Exception("not matched");
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());

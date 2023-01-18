@@ -7,6 +7,8 @@ public class PossibleGlobalVariable {
     private boolean hasType = false;
     private boolean isAssigned = false;
     private boolean isInCondition = false;
+    private boolean isInMethodCall = false;
+    private boolean isInitializedLocally = false;
     private Types valueType;
     private String valueName = "";
 
@@ -40,6 +42,22 @@ public class PossibleGlobalVariable {
 
     public void setInCondition(boolean inCondition) {
         isInCondition = inCondition;
+    }
+
+    public boolean isInMethodCall() {
+        return isInMethodCall;
+    }
+
+    public void setInMethodCall(boolean inMethodCall) {
+        isInMethodCall = inMethodCall;
+    }
+
+    public boolean isInitializedLocally() {
+        return isInitializedLocally;
+    }
+
+    public void setInitializedLocally(boolean initializedLocally) {
+        isInitializedLocally = initializedLocally;
     }
 
     public Types getValueType() {
