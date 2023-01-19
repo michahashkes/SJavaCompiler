@@ -8,6 +8,13 @@ public class Variable {
     private boolean isInitialized;
     private final boolean isFinal;
 
+    /**
+     * variable class
+     * @param type variable type
+     * @param name variable name
+     * @param isInitialized is it assigned
+     * @param isFinal is it final
+     */
     public Variable(Types type, String name,
                     boolean isInitialized, boolean isFinal) {
         this.type = type;

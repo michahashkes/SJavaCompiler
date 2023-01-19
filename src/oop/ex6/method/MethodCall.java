@@ -31,6 +31,7 @@ public class MethodCall {
             return variableName;
         }
     }
+
     private ArrayList<MethodCallArgument> methodCallVariables = new ArrayList<>();
 
     public MethodCall(String name) {

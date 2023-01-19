@@ -22,6 +22,7 @@ public class Sjavac {
 
     private final static int SINGLE_FILE_LENGTH = 1;
     private final static String NUMBER_OF_FILES_ERROR = "Usage: need to send a single file to check";
+
     public Sjavac() {
     }
 
@@ -29,7 +30,7 @@ public class Sjavac {
                                                   HashMap<String, Variable> globalVariables) {
         if (!globalVariables.containsKey(possibleGlobalVariable.getName()))
             return false;
-        Variable globalVariable =  globalVariables.get(possibleGlobalVariable.getName());
+        Variable globalVariable = globalVariables.get(possibleGlobalVariable.getName());
 
         if (possibleGlobalVariable.isInCondition()) {
             return (globalVariable.isInitialized() || possibleGlobalVariable.isInitializedLocally())
@@ -46,20 +47,23 @@ public class Sjavac {
                 return false;
 
             if (possibleGlobalVariable.hasType())
-                return VariableTypesUtils.areValueTypesEqual(globalVariable.getType(), possibleGlobalVariable.getValueType());
+                return VariableTypesUtils.areValueTypesEqual(globalVariable.getType(),
+                        possibleGlobalVariable.getValueType());
 
             if (!globalVariables.containsKey(possibleGlobalVariable.getValueName()))
                 return false;
             // variable assigned to it, check if equal
             Variable globalVariableAssigned = globalVariables.get(possibleGlobalVariable.getValueName());
 
-            return globalVariableAssigned.isInitialized() && VariableTypesUtils.areValueTypesEqual(globalVariable.getType(),
+            return globalVariableAssigned.isInitialized() &&
+                    VariableTypesUtils.areValueTypesEqual(globalVariable.getType(),
                     globalVariableAssigned.getType());
         }
 
         // the possible variable is being assigned to a different variable
         if (possibleGlobalVariable.hasType())
-            return globalVariable.isInitialized() && VariableTypesUtils.areValueTypesEqual(possibleGlobalVariable.getValueType(),
+            return globalVariable.isInitialized() &&
+                    VariableTypesUtils.areValueTypesEqual(possibleGlobalVariable.getValueType(),
                     globalVariable.getType());
 
         if (!globalVariables.containsKey(possibleGlobalVariable.getValueName()))
@@ -69,12 +73,14 @@ public class Sjavac {
         Variable globalVariableAssignedTo =
                 globalVariables.get(possibleGlobalVariable.getValueName());
         return (!globalVariableAssignedTo.isFinal())
-                && VariableTypesUtils.areValueTypesEqual(globalVariableAssignedTo.getType(), globalVariable.getType());
+                && VariableTypesUtils.areValueTypesEqual(globalVariableAssignedTo.getType(),
+                globalVariable.getType());
     }
 
     private boolean checkGlobalVariableValidity() {
         HashMap<String, Variable> globalVariables = ScriptScope.getGlobalVariables();
-        ArrayList<PossibleGlobalVariable> possibleGlobalVariables = ScriptScope.getPossibleGlobalVariables();
+        ArrayList<PossibleGlobalVariable> possibleGlobalVariables =
+                ScriptScope.getPossibleGlobalVariables();
 
         for (PossibleGlobalVariable possibleGlobalVariable : possibleGlobalVariables) {
             if (!isPossibleGlobalVariableValid(possibleGlobalVariable, globalVariables))
@@ -99,7 +105,8 @@ public class Sjavac {
         return true;
     }
 
-    private boolean isMethodCallValid(Map.Entry<String, MethodCall> methodCallEntry, HashMap<String, Method> methods) {
+    private boolean isMethodCallValid(Map.Entry<String, MethodCall> methodCallEntry,
+                                      HashMap<String, Method> methods) {
         if (!methods.containsKey(methodCallEntry.getKey()))
             return false;
 
@@ -137,24 +144,24 @@ public class Sjavac {
 
         ScriptScope.startScriptScope();
         try {
-            if(args.length != SINGLE_FILE_LENGTH){
+            if (args.length != SINGLE_FILE_LENGTH) {
                 throw new IncorrectNumberOfFilesException(NUMBER_OF_FILES_ERROR);
             }
             Parser parser = new Parser(args[0]);
             parser.readFile();
-        }
-        catch (IncorrectNumberOfFilesException | IOException e) {
+        } catch (IncorrectNumberOfFilesException | IOException e) {
             System.out.println(e.getMessage());
             System.out.println(2);
             return;
-        }catch (IllegalVariablesException|IllegalScopesException| IllegalLineException
-                | IllegalInitializedVariableException | IllegalAssignException | IllegalDeclarationException |
-                IllegalFinalVariableException |
-                IllegalIfWhileException | IllegalMethodCallException | IllegalReturnException
-                | IllegalEndOfScopesException | IllegalMethodDefinitionException e) {
-           System.err.println(e.getMessage());
-           System.out.println(1);
-           return;
+        } catch (IllegalVariablesException | IllegalScopesException | IllegalLineException
+                 | IllegalInitializedVariableException | IllegalAssignException |
+                 IllegalDeclarationException |
+                 IllegalFinalVariableException |
+                 IllegalIfWhileException | IllegalMethodCallException
+                 | IllegalEndOfScopesException | IllegalMethodDefinitionException e) {
+            System.err.println(e.getMessage());
+            System.out.println(1);
+            return;
         }
 
         Sjavac sjavac = new Sjavac();

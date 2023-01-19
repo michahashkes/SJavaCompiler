@@ -39,7 +39,8 @@ public class MethodDefinitionHandler implements HandlerInterface {
         for (String methodParameter : methodParameters) {
             String[] parameterValues = methodParameter.split(" ");
             boolean isFinal = parameterValues.length == 3;
-            Types variableType = VariableTypesUtils.deriveTypeFromType(isFinal ? parameterValues[1] : parameterValues[0]);
+            Types variableType = VariableTypesUtils.deriveTypeFromType(
+                    isFinal ? parameterValues[1] : parameterValues[0]);
             String variableName = isFinal ? parameterValues[2] : parameterValues[1];
             if (isAlreadyParameter(variableName, parameters))
                 throw new IllegalMethodDefinitionException();

@@ -19,7 +19,10 @@ public class LineHandler {
      * @return true if the line is in correct format
      */
 
-    public boolean handleLine(StatementTypes statementTypes, Matcher line) throws IllegalInitializedVariableException, IllegalAssignException, IllegalDeclarationException, IllegalFinalVariableException, IllegalIfWhileException, IllegalMethodCallException, IllegalEndOfScopesException, IllegalReturnException, IllegalMethodDefinitionException {
+    public boolean handleLine(StatementTypes statementTypes, Matcher line)
+            throws IllegalInitializedVariableException, IllegalAssignException,
+            IllegalDeclarationException, IllegalFinalVariableException, IllegalIfWhileException,
+            IllegalMethodCallException, IllegalEndOfScopesException, IllegalMethodDefinitionException {
         HandlersFactory handlersFactory = new HandlersFactory();
         HandlerInterface handle = handlersFactory.Handlers(statementTypes);
         if (handle == null)

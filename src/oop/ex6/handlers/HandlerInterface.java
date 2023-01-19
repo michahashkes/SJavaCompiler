@@ -17,5 +17,8 @@ public interface HandlerInterface {
      * @param line - line from file
      * @return bool if line is correct , false is not correct
      */
-    public boolean handleLine(Matcher line) throws IllegalDeclarationException, IllegalInitializedVariableException, IllegalFinalVariableException, IllegalAssignException, IllegalEndOfScopesException, IllegalIfWhileException, IllegalMethodCallException, IllegalMethodDefinitionException;
+    public boolean handleLine(Matcher line)
+            throws IllegalDeclarationException, IllegalInitializedVariableException,
+            IllegalFinalVariableException, IllegalAssignException, IllegalEndOfScopesException,
+            IllegalIfWhileException, IllegalMethodCallException, IllegalMethodDefinitionException;
 }

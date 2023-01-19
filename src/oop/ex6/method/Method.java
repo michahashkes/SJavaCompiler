@@ -14,6 +14,11 @@ public class Method {
     private int currentScope = 0;
     private boolean functionClosed = false;
 
+    /**
+     * method class
+     * @param name name of method
+     * @param parameters method parameters
+     */
     public Method(String name, ArrayList<Variable> parameters) {
         this.name = name;
         this.parameters = parameters;
@@ -55,10 +60,9 @@ public class Method {
     }
 
     public int getVariableScope(String variableName) {
-        for (Map.Entry<Integer, ArrayList<Variable>> entry: variablesInScopesMap.entrySet()) {
+        for (Map.Entry<Integer, ArrayList<Variable>> entry : variablesInScopesMap.entrySet()) {
             for (Variable variable : entry.getValue()) {
-                if (variableName.equals(variable.getName()))
-                    return entry.getKey();
+                if (variableName.equals(variable.getName())) return entry.getKey();
             }
         }
         return -1;
@@ -66,12 +70,10 @@ public class Method {
 
     public Variable getVariable(String variableName) {
         int variableScope = getVariableScope(variableName);
-        if (variableScope < 0)
-            return null;
+        if (variableScope < 0) return null;
 
         for (Variable variable : variablesInScopesMap.get(variableScope)) {
-            if (variableName.equals(variable.getName()))
-                return variable;
+            if (variableName.equals(variable.getName())) return variable;
         }
         return null;
     }

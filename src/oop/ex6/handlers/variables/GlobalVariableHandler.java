@@ -13,7 +13,8 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
      * @param variableType the type of declaration
      * @return true if is correct else otherwise
      */
-    public boolean handleDeclaredVariable(String variableName, Types variableType) throws IllegalDeclarationException {
+    public boolean handleDeclaredVariable(String variableName, Types variableType)
+            throws IllegalDeclarationException {
         if (canVariableBeDeclared(variableName)) {
             Variable variable = new Variable(variableType, variableName, false, false);
             ScriptScope.addGlobalVariable(variable);
@@ -29,7 +30,8 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
      * @return true if is correct else otherwise
      */
 
-    public boolean handleAssignedVariable(String variableName, String variableValue) throws IllegalAssignException {
+    public boolean handleAssignedVariable(String variableName, String variableValue)
+            throws IllegalAssignException {
         if (canVariableBeAssigned(variableName, variableValue)) {
             Variable variable = getGlobalVariable(variableName);
             variable.setInitialized();
@@ -47,7 +49,8 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
      */
 
     public boolean handleInitializedVariable(String variableName,
-                                             Types variableType, String variableValue) throws IllegalInitializedVariableException {
+                                             Types variableType, String variableValue)
+            throws IllegalInitializedVariableException {
         if (canVariableBeInitialized(variableName, variableType, variableValue)) {
             Variable variable = new Variable(variableType, variableName, true, false);
             ScriptScope.addGlobalVariable(variable);
@@ -65,7 +68,8 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
      */
 
     public boolean handleFinalVariable(String variableName,
-                                       Types variableType, String variableValue) throws IllegalFinalVariableException {
+                                       Types variableType, String variableValue)
+            throws IllegalFinalVariableException {
         if (canVariableBeInitialized(variableName, variableType, variableValue)) {
             Variable variable = new Variable(variableType, variableName, true, true);
             ScriptScope.addGlobalVariable(variable);
@@ -89,7 +93,8 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
      * @return true if is correct else otherwise
      */
 
-    private boolean canVariableBeAssigned(String variableName, String variableValue) throws IllegalAssignException {
+    private boolean canVariableBeAssigned(String variableName, String variableValue)
+            throws IllegalAssignException {
         Variable variable = getGlobalVariable(variableName);
         if (variable == null)
             return false;
@@ -99,12 +104,14 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
             if (variableToAssign == null)
                 throw new IllegalAssignException();
             return variableToAssign.isInitialized() && (!variable.isFinal())
-                    && VariableTypesUtils.areValueTypesEqual(variable.getType(), variableToAssign.getType());
+                    && VariableTypesUtils.areValueTypesEqual(variable.getType(),
+                    variableToAssign.getType());
         }
 
         // value is regular shape (primitive type), derive its type and return if equal
         Types valueType = VariableTypesUtils.deriveTypeFromValue(variableValue);
-        return (!variable.isFinal()) && VariableTypesUtils.areValueTypesEqual(variable.getType(), valueType);
+        return (!variable.isFinal()) && VariableTypesUtils.areValueTypesEqual(
+                variable.getType(), valueType);
     }
 
     /**

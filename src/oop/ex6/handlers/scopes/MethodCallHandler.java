@@ -66,7 +66,8 @@ public class MethodCallHandler implements HandlerInterface {
             if (variable != null) {
                 if (variable.getType() == Types.POSSIBLE_GLOBAL_VARIABLE_INITIALIZED) {
                     // variable exists, but it is probably global variable
-                    PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(variable.getName());
+                    PossibleGlobalVariable possibleGlobalVariableAssigned =
+                            new PossibleGlobalVariable(variable.getName());
                     possibleGlobalVariableAssigned.setInMethodCall(true);
                     possibleGlobalVariableAssigned.setInitializedLocally(variable.isInitialized());
                     ScriptScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);

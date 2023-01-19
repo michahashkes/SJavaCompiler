@@ -73,9 +73,11 @@ public class VariableTypesUtils {
     static public boolean areValueTypesEqual(Types variableType, Types valueType) {
         if (variableType == valueType)
             return true;
-        if (variableType == POSSIBLE_GLOBAL_VARIABLE_UNINITIALIZED || valueType == POSSIBLE_GLOBAL_VARIABLE_UNINITIALIZED)
+        if (variableType == POSSIBLE_GLOBAL_VARIABLE_UNINITIALIZED ||
+                valueType == POSSIBLE_GLOBAL_VARIABLE_UNINITIALIZED)
             return true;
-        if (variableType == POSSIBLE_GLOBAL_VARIABLE_INITIALIZED || valueType == POSSIBLE_GLOBAL_VARIABLE_INITIALIZED)
+        if (variableType == POSSIBLE_GLOBAL_VARIABLE_INITIALIZED ||
+                valueType == POSSIBLE_GLOBAL_VARIABLE_INITIALIZED)
             return true;
         if (variableType == DOUBLE && valueType == INT)
             return true;

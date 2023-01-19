@@ -3,28 +3,74 @@ nitzanknoll
 
 <Error Handling >
 We divided the handling of errors into 3 main cases:
-1. Incorrect number of arguments - too many files or no file at all - in this case IncorrectNumberOfFilesException
-   Called
-2. IOException
-In the case of both of the above, we will print an error message to the user and then print 2 and then exit the program.
-3. At least one line is wrong in the code: we divided this case into 11 cases, 8 detailed cases that inherit from
- FileFormatException that inherits from Exception:
-Illegal assignment case, Illegal initialization case, Final variable type error case, Illegal declaration case,
- Illegal variable case, Illegal method call case, Illegal if While case, Scope finalization case Illegal,
- an instance of an illegal method declaration. For each of the cases we wrote a class that will handle the case and
- print an informative error message
+1.  Incorrect number of arguments - too many files or no file at all -
+    in this case IncorrectNumberOfFilesException Called
+2.  IOException
+    In the case of both of the above, we will print an error message to the user and then print 2
+    and then exit the program.
+3.  At least one line is wrong in the code: we divided this case into 11 cases, 8 detailed cases
+    that inherit from FileFormatException that inherits from Exception:
+    Illegal assignment case, Illegal initialization case, Final variable type error case,
+    Illegal declaration case, Illegal variable case, Illegal method call case, Illegal if While case,
+    Scope finalization case Illegal, an instance of an illegal method declaration.
+    For each of the cases we wrote a class that will handle the case and print an informative error message
 The other 3 classes are in case the 8 errors failed to catch.
 
-We chose to divide the error handling in this way because that way the user will be able to know whether the error
-Occurred during the opening or closing of the document or there is a problem with at least one of the written lines
- in the document, if there is a problem with one of the written lines in the document - the user will receive an
- informative message in which part of the code the error occurred
+We chose to divide the error handling in this way because that way the user will be able to know
+whether the error occurred during the opening or closing of the document or there is a problem
+with at least one of the written lines in the document, if there is a problem with one of the written lines
+in the document - the user will receive an informative message in which part of the code the error occurred
 
 <Object Oriented Design>
+Our design centered around creating handlers for each case and using a Factory to return the correct one.
+We created a HandlerInterface for Polymorphism, so that each handler class
+(MethodDefinitionHandler, VariableHandler, etc.) will have a function handleLine() to implement.
+Our Parser class iterates over lines from the sjava file, and calls to a HandlerFactory to return the
+correct handler, based on switch-case of the type of regex found. This is done by using HashMap collection
+with type being the key and regex being the value. We used Enums to determine the types throughout the code.
+We also used interface with VariableHandler, as we have multiple ways of handling variables
+(LocalVariableHandler, GlobalVariableHandler, etc.) In addition, we used Composition to know what handlers
+to use. All this we created in 'handlers' package.
+In addition, we created classes such as Variable, Method, MethodCall, and more to define objects that we
+can keep track of. For example a Method instance would keep a Collection of Variables that are locally
+defined in them.
+Finally, we created a ScriptScope class that is static, so it will contain everything we need to know
+about the script, such as a lists of Methods, MethodCalls, and PossibleGlobalVariables, so that after we
+iterate over the file, we can determine post errors, such as method calls not being accurate to method
+definitions, and global variable used correctly.
+
+<Questions>
+1. To add new types of variable, we would to change the next things:
+    - to the variable regex, add the type of the new variable to the correct place
+    - add a type to the enum Types
+    - in VariableTypeUtils, change deriveTypeFromValue to use a new regex to determine the new type
+    - in VariableTypeUtils, make sure with what types it is compatible with, in areValueTypesEqual()
+2. Classes:
+    like with methods, we would add a ClassDefinition class, and a ClassCall class, and for each of them
+    create a handler. The handlers would make sure the class definition or a class call makes sense.
+    After saving these, we would check if all class call are valid.
+    We would also add new regexes for finding Classes, and add new types in our Enums.
+   Method return types:
+    In Method class, we would add a field of returnType, and in MethodDefinitionHandler make sure we derive
+    the return type and add it to the method object. We would do the same for MethodCall. The main challenge
+    would be to change the regex to accommodate this, but most likely just add the option of being called
+    with a variable assigment or declaration. In addition, we would make sure that while we check the
+    validity of method calls post-iteration, the return types of the calls and method are equal.
 
 <Regular Expression>
+1. A main regex we used was the ALL_FORMATS regex:
+(_+\\w*[a-zA-Z]+\\w*|_*[a-zA-Z]+\\w*)|[-+]?\\d*\\.?\\d+|[+-]?\\d+|true|false|'.'|\".*\"
+This would catch any format the is acceptable of a variable,
+be it variable name, int, double, String and char. This is important to use in a case of variable assignment
+and method calls, where we need to catch all types regardless of declaration.
+2. Another one was a method declaration regex:
+\s*void\s+([a-zA-Z]+\w*)\s*\(\s*((final\s+)?(int|double|String|boolean|char)
+\s+_*[a-zA-Z]+\w*+(\s*,\s*(final\s+)?(int|double|String|boolean|char)\s+_*[a-zA-Z]+\w*)*)?\s*\)\s*\{\s*
+This one makes sure that all whitespaces are allowed in the correct places, that there can be 0 or many
+parameters, and that each type is allowed.
 
-Short explain of each test :
+
+<Short explain of each test>
 test 1 - illegal spaces
 test 2 - illegal comment
 test 3 - illegal spaces

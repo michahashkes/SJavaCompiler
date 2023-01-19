@@ -12,6 +12,10 @@ public class PossibleGlobalVariable {
     private Types valueType;
     private String valueName = "";
 
+    /**
+     * possible global variable class
+     * @param name variable name
+     */
     public PossibleGlobalVariable(String name) {
         this.name = name;
     }

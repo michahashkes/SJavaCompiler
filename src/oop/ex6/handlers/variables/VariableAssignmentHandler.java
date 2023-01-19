@@ -7,7 +7,8 @@ import java.util.regex.Matcher;
 
 public class VariableAssignmentHandler implements HandlerInterface {
 
-    VariableHandler variableHandler = new VariableHandler(new LocalVariableHandler(), new GlobalVariableHandler());
+    VariableHandler variableHandler = new
+            VariableHandler(new LocalVariableHandler(), new GlobalVariableHandler());
 
     /**
      * check if variable is correct

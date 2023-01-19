@@ -15,7 +15,8 @@ public class LocalVariableHandler implements VariableHandlerInterface {
      * @param variableType Types
      * @return true if the declared variable are in correct format
      */
-    public boolean handleDeclaredVariable(String variableName, Types variableType) throws IllegalDeclarationException {
+    public boolean handleDeclaredVariable(String variableName, Types variableType)
+            throws IllegalDeclarationException {
         if (canVariableBeDeclared(variableName)) {
             Variable variable = new Variable(variableType, variableName, false, false);
             Method currentMethod = ScriptScope.getCurrentMethod();
@@ -30,9 +31,9 @@ public class LocalVariableHandler implements VariableHandlerInterface {
      * @param variableType Types
      * @return true if the initialized variable are in correct format
      */
-
     public boolean handleInitializedVariable(String variableName,
-                                             Types variableType, String variableValue) throws IllegalInitializedVariableException {
+                                             Types variableType, String variableValue)
+            throws IllegalInitializedVariableException {
         if (canVariableBeInitialized(variableName, variableType, variableValue)) {
             Variable variable = new Variable(variableType, variableName, true, false);
             Method currentMethod = ScriptScope.getCurrentMethod();
@@ -47,9 +48,8 @@ public class LocalVariableHandler implements VariableHandlerInterface {
      * @param variableValue Types
      * @return true if the assigned variable are in correct format
      */
-
-
-    public boolean handleAssignedVariable(String variableName, String variableValue) throws IllegalAssignException {
+    public boolean handleAssignedVariable(String variableName, String variableValue)
+            throws IllegalAssignException {
         if (canVariableBeAssigned(variableName, variableValue)) {
             Method currentMethod = ScriptScope.getCurrentMethod();
             Variable variable = currentMethod.getVariable(variableName);
@@ -70,10 +70,9 @@ public class LocalVariableHandler implements VariableHandlerInterface {
      * @param variableType Types
      * @return true if the final variable are in correct format
      */
-
-
     public boolean handleFinalVariable(String variableName,
-                                       Types variableType, String variableValue) throws IllegalFinalVariableException {
+                                       Types variableType, String variableValue)
+            throws IllegalFinalVariableException {
         if (canVariableBeInitialized(variableName, variableType, variableValue)) {
             Variable variable = new Variable(variableType, variableName, true, true);
             Method currentMethod = ScriptScope.getCurrentMethod();
@@ -116,7 +115,8 @@ public class LocalVariableHandler implements VariableHandlerInterface {
                 if (variableToAssign == null) {
                     // variable value is not local, add it to possible list and
                     // return true because we don't know type
-                    PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(variableValue);
+                    PossibleGlobalVariable possibleGlobalVariableAssigned =
+                            new PossibleGlobalVariable(variableValue);
                     possibleGlobalVariableAssigned.setHasType(true);
                     possibleGlobalVariableAssigned.setValueType(variable.getType());
                     ScriptScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);
@@ -142,7 +142,8 @@ public class LocalVariableHandler implements VariableHandlerInterface {
             if (variableToAssign == null) {
                 // variable value is not local, add both it and variable to possible list and
                 // return true because we don't know types
-                PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(variableValue);
+                PossibleGlobalVariable possibleGlobalVariableAssigned =
+                        new PossibleGlobalVariable(variableValue);
                 possibleGlobalVariableAssigned.setValueName(variableName);
                 ScriptScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);
                 possibleGlobalVariableToAssign.setValueName(variableValue);
@@ -184,7 +185,8 @@ public class LocalVariableHandler implements VariableHandlerInterface {
             if (variableToAssign == null) {
                 // variable value is not local, add it to possible list and
                 // return true because we don't know type
-                PossibleGlobalVariable possibleGlobalVariableAssigned = new PossibleGlobalVariable(variableValue);
+                PossibleGlobalVariable possibleGlobalVariableAssigned =
+                        new PossibleGlobalVariable(variableValue);
                 possibleGlobalVariableAssigned.setHasType(true);
                 possibleGlobalVariableAssigned.setValueType(variableType);
                 ScriptScope.addPossibleGlobalVariable(possibleGlobalVariableAssigned);
