@@ -22,6 +22,10 @@ public class RegexGlobals {
         return lineTypesMap;
     }
 
+    /*
+    add all declaration regex strings to the set
+     */
+
     private static void putDeclareMap() {
         declareMap.add( INT_DECLARATION_INIT_PARSER);
         declareMap.add( DOUBLE_DECLARATION_INIT_PARSER);
@@ -29,10 +33,16 @@ public class RegexGlobals {
         declareMap.add( BOOLEAN_DECLARATION_INIT_PARSER);
         declareMap.add( CHAR_DECLARATION_INIT_PARSER);
     }
+     /*
+    add all assign regex strings to the set
+     */
 
     private static void putAssignMap() {
         assignMap.add(ASSIGNMENT);
     }
+    /*
+    add all fina regex string to the set
+     */
 
     private static void putFinalMap() {
         finalMap.add( INT_FINAL_PARSER);
@@ -42,7 +52,7 @@ public class RegexGlobals {
         finalMap.add( CHAR_FINAL_PARSER);
     }
 
-    public final static String VARIABLE_NAME_REGEX = "[_a-zA-Z]+\\w*";
+    public final static String VARIABLE_NAME_REGEX = "(_+\\w*[a-zA-Z]+\\w*|_*[a-zA-Z]+\\w*)";
     public final static String INT_REGEX = "[+-]?\\d+";
     public final static String DOUBLE_REGEX = "[-+]?\\d*\\.?\\d+";
     public final static String STRING_REGEX = "\".*\"";

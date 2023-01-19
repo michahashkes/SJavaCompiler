@@ -17,4 +17,4 @@ test 16 -  reserve words
 test 17 - reserve words
 test 18 - incorrect final assignment
 test 19 - incorrect final declaration
-test 20 - multiple types of assignment
+test 20 - same variable name

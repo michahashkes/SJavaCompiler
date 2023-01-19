@@ -9,15 +9,22 @@ import java.util.regex.Matcher;
 
 public class VariableDeclarationHandler implements HandlerInterface {
 
+    private static final String FINAL = "final";
+
     VariableHandler variableHandler = new VariableHandler(new LocalVariableHandler(), new GlobalVariableHandler());
 
+    /**
+     * check if the variable is in correct format
+     * @param matcher
+     * @return if the variable is correct format else otherwise
+     */
     public boolean handleVariable(Matcher matcher) {
         boolean isFinal = false;
         String[] declaration = matcher.group(1).replaceAll("\\s+", " ").trim().split(" ");
         if (declaration.length < 1 || declaration.length > 2)
             return false;
         if (declaration.length == 2) {
-            if (!declaration[0].equals("final"))
+            if (!declaration[0].equals(FINAL))
                 return false;
             isFinal = true;
         }
@@ -25,9 +32,13 @@ public class VariableDeclarationHandler implements HandlerInterface {
                 VariableTypesUtils.deriveTypeFromType(declaration[0]);
         if (variableType == Types.UNSUPPORTED_TYPE)
             return false;
+       return checkVariables(isFinal,matcher,variableType);
 
+    }
+
+    private boolean checkVariables(boolean isFinal, Matcher matcher, Types variableType){
+        //replace all multiple spaces in one space
         String[] variables = matcher.group(2).replaceAll("\\s+", " ").trim().split("\\s*,\\s*");
-
         for (int i = 0; i < variables.length; i++) {
             variables[i] = variables[i].replaceAll(" ", "");
             String[] variableAndValue = variables[i].split("=");

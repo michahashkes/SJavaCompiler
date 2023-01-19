@@ -9,6 +9,11 @@ public class VariableAssignmentHandler implements HandlerInterface {
 
     VariableHandler variableHandler = new VariableHandler(new LocalVariableHandler(), new GlobalVariableHandler());
 
+    /**
+     * check if variable is correct
+     * @param matcher - phase
+     * @return true if the variable is true
+     */
     public boolean handleVariable(Matcher matcher) {
         String[] lines = matcher.group(0).replaceAll("\\s+", "").trim().split("\\s*,\\s*");
 

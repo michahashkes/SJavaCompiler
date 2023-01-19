@@ -7,6 +7,12 @@ import oop.ex6.main.regex.Types;
 
 public class GlobalVariableHandler implements VariableHandlerInterface {
 
+    /**
+     * check if line of declaration variable is correct
+     * @param variableName the type of the variable
+     * @param variableType the type of declaration
+     * @return true if is correct else otherwise
+     */
     public boolean handleDeclaredVariable(String variableName, Types variableType) {
         if (canVariableBeDeclared(variableName)) {
             Variable variable = new Variable(variableType, variableName, false, false);
@@ -16,6 +22,13 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
         return false;
     }
 
+    /**
+     * check if the assignment of variable is in correct format
+     * @param variableName
+     * @param variableValue
+     * @return true if is correct else otherwise
+     */
+
     public boolean handleAssignedVariable(String variableName, String variableValue) {
         if (canVariableBeAssigned(variableName, variableValue)) {
             Variable variable = getGlobalVariable(variableName);
@@ -24,6 +37,14 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
         }
         return false;
     }
+
+    /**
+     * check if initialized variable is in correct format
+     * @param variableName
+     * @param variableType
+     * @param variableValue
+     * @return true if is correct else otherwise
+     */
 
     public boolean handleInitializedVariable(String variableName,
                                              Types variableType, String variableValue) {
@@ -35,6 +56,14 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
         return false;
     }
 
+    /**
+     * check if final variable is in correct format
+     * @param variableName type of string
+     * @param variableType type of Types
+     * @param variableValue type of string
+     * @return true if is correct else otherwise
+     */
+
     public boolean handleFinalVariable(String variableName,
                                        Types variableType, String variableValue) {
         if (canVariableBeInitialized(variableName, variableType, variableValue)) {
@@ -45,15 +74,26 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
         return false;
     }
 
+    /*
+    check that variable has not declared before
+     */
+
     private boolean canVariableBeDeclared(String variableName) {
         return getGlobalVariable(variableName) == null;
     }
+
+    /**
+     * check if variable can be assigned
+     * @param variableName type of string
+     * @param variableValue type of string
+     * @return true if is correct else otherwise
+     */
 
     private boolean canVariableBeAssigned(String variableName, String variableValue) {
         Variable variable = getGlobalVariable(variableName);
         if (variable == null)
             return false;
-
+        //check if the assign value is a global variable
         if (VariableTypesUtils.isValueVariable(variableValue)) {
             Variable variableToAssign = getGlobalVariable(variableValue);
             if (variableToAssign == null)
@@ -66,6 +106,14 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
         Types valueType = VariableTypesUtils.deriveTypeFromValue(variableValue);
         return (!variable.isFinal()) && VariableTypesUtils.areValueTypesEqual(variable.getType(), valueType);
     }
+
+    /**
+     * check if variable can be initialized
+     * @param variableName String
+     * @param variableType Types
+     * @param variableValue String
+     * @return true if is correct else otherwise
+     */
 
     private boolean canVariableBeInitialized(String variableName,
                                              Types variableType, String variableValue) {
@@ -85,12 +133,13 @@ public class GlobalVariableHandler implements VariableHandlerInterface {
         return VariableTypesUtils.areValueTypesEqual(variableType, valueType);
     }
 
+    /**
+     * return global variable
+     * @param variableName
+     * @return variable
+     */
+
     public Variable getGlobalVariable(String variableName) {
         return ScriptScope.getGlobalVariables().get(variableName);
-//        for (Variable variable : MethodScope.getGlobalVariables()) {
-//            if (variableName.equals(variable.getName()))
-//                return variable;
-//        }
-//        return null;
     }
 }

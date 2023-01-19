@@ -7,6 +7,9 @@ import oop.ex6.main.regex.StatementTypes;
 
 public class HandlersFactory {
 
+    /*
+    return handler follow statementTypes
+     */
     public HandlerInterface Handlers(StatementTypes statementTypes){
         switch (statementTypes) {
             case ASSIGN :

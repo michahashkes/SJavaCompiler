@@ -9,6 +9,12 @@ import oop.ex6.variables.VariableTypesUtils;
 
 public class LocalVariableHandler implements VariableHandlerInterface {
 
+    /**
+     * handle with declared variable
+     * @param variableName String
+     * @param variableType Types
+     * @return true if the declared variable are in correct format
+     */
     public boolean handleDeclaredVariable(String variableName, Types variableType) {
         if (canVariableBeDeclared(variableName)) {
             Variable variable = new Variable(variableType, variableName, false, false);
@@ -18,6 +24,12 @@ public class LocalVariableHandler implements VariableHandlerInterface {
         }
         return false;
     }
+    /**
+     * handle with initialized variable
+     * @param variableName String
+     * @param variableType Types
+     * @return true if the initialized variable are in correct format
+     */
 
     public boolean handleInitializedVariable(String variableName,
                                              Types variableType, String variableValue) {
@@ -29,6 +41,13 @@ public class LocalVariableHandler implements VariableHandlerInterface {
         }
         return false;
     }
+    /**
+     * handle with assigned variable
+     * @param variableName String
+     * @param variableValue Types
+     * @return true if the assigned variable are in correct format
+     */
+
 
     public boolean handleAssignedVariable(String variableName, String variableValue) {
         if (canVariableBeAssigned(variableName, variableValue)) {
@@ -45,6 +64,13 @@ public class LocalVariableHandler implements VariableHandlerInterface {
         }
         return false;
     }
+    /**
+     * handle with final variable
+     * @param variableName String
+     * @param variableType Types
+     * @return true if the final variable are in correct format
+     */
+
 
     public boolean handleFinalVariable(String variableName,
                                        Types variableType, String variableValue) {
@@ -56,6 +82,11 @@ public class LocalVariableHandler implements VariableHandlerInterface {
         }
         return false;
     }
+
+    /*
+    check if variable can be declared
+    return true if he can be, false otherwise
+     */
 
     public boolean canVariableBeDeclared(String variableName) {
         Method currentMethod = ScriptScope.getCurrentMethod();
@@ -69,10 +100,13 @@ public class LocalVariableHandler implements VariableHandlerInterface {
         return otherVariableScope != currentScope;
     }
 
+    /*
+    check if variable can be assigned, return true if he can false otherwise
+     */
+
     private boolean canVariableBeAssigned(String variableName, String variableValue) {
         Method currentMethod = ScriptScope.getCurrentMethod();
         Variable variable = currentMethod.getVariable(variableName);
-        // TODO: add check if milim shmurot
 
         if (variable != null) {
             // local variable was declared
@@ -131,6 +165,12 @@ public class LocalVariableHandler implements VariableHandlerInterface {
         ScriptScope.addPossibleGlobalVariable(possibleGlobalVariableToAssign);
         return true;
     }
+
+
+
+    /*
+    check if variable can be initialized, return true if he can false otherwise
+     */
 
     private boolean canVariableBeInitialized(String variableName,
                                              Types variableType, String variableValue) {
