@@ -37,7 +37,7 @@ public class LocalVariableHandler implements VariableHandlerInterface {
             if (variable == null) { // case of possible global variable, add it for use
                 variable = new Variable(Types.POSSIBLE_GLOBAL_VARIABLE_INITIALIZED,
                         variableName, true, false);
-                currentMethod.addVariable(variable);
+                currentMethod.addPotentialGlobalVariable(variable);
             } else {
                 variable.setInitialized();
             }

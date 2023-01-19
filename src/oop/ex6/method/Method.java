@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Method {
+    private static final Integer GLOBAL_SCOPE = 0;
     private String name;
     private ArrayList<Variable> parameters;
     private final HashMap<Integer, ArrayList<Variable>> variablesInScopesMap = new HashMap<>();
@@ -47,6 +48,10 @@ public class Method {
 
     public void addVariable(Variable variable) {
         variablesInScopesMap.get(currentScope).add(variable);
+    }
+
+    public void addPotentialGlobalVariable(Variable variable) {
+        variablesInScopesMap.get(GLOBAL_SCOPE).add(variable);
     }
 
     public int getVariableScope(String variableName) {
