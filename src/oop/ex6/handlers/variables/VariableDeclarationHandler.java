@@ -51,6 +51,10 @@ public class VariableDeclarationHandler implements HandlerInterface {
         return true;
     }
 
+    /**
+     * @param line - line from file
+     * @return bool if line is correct , false is not correct
+     */
     @Override
     public boolean handleLine(Matcher line) {
         boolean handle = handleVariable(line);

@@ -11,6 +11,10 @@ public class ReturnHandler implements HandlerInterface {
         return (!ScriptScope.isInGlobalScope());
     }
 
+    /**
+     * @param line - line from file
+     * @return bool if line is correct , false is not correct
+     */
     @Override
     public boolean handleLine(Matcher line) {
         ScriptScope.setLastLineReturn(true);

@@ -63,6 +63,11 @@ public class IfWhileHandler implements HandlerInterface {
     static public boolean isVariableTypeValid(Types variableType) {
         return variableType == Types.BOOLEAN || variableType == Types.DOUBLE || variableType == Types.INT;
     }
+    /**
+     *
+     * @param line - line from file
+     * @return bool if line is correct , false is not correct
+     */
 
     @Override
     public boolean handleLine(Matcher line) {
