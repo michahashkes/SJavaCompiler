@@ -13,20 +13,26 @@ import java.util.regex.Matcher;
 
 public class MethodCallHandler implements HandlerInterface {
 
+    /**
+     * check if line of method call is valid
+     * @param matcher
+     * @return true if is valid, else otherwise
+     */
     public boolean handleMethodCall(Matcher matcher) {
         if (ScriptScope.isInGlobalScope())
             return false;
 
         String callMethodName = matcher.group(1);
-
         String[] methodArguments;
         if (matcher.groupCount() < 2 || matcher.group(2) == null || matcher.group(2).isEmpty())
             methodArguments = new String[0];
         else
+            //replace multiple spaces in one space
             methodArguments =
                     matcher.group(2).replaceAll("\\s+", " ").trim().split("\\s*,\\s*");
 
         MethodCall methodCall = new MethodCall(callMethodName);
+        //check all conditions
         for (String argument : methodArguments) {
             Types argumentType = getArgumentType(argument);
 
@@ -40,15 +46,20 @@ public class MethodCallHandler implements HandlerInterface {
                 methodCall.addArgument(true, argumentType, "");
 
         }
-
         ScriptScope.addMethodCall(callMethodName, methodCall);
         return true;
     }
 
+    /**
+     * check if argument type is valid
+     * @param argument argument of method call type of string
+     * @return true if is valid, else otherwise
+     */
     private Types getArgumentType(String argument) {
         Types argumentType = VariableTypesUtils.deriveTypeFromValue(argument);
 
         if (argumentType == Types.POSSIBLE_VARIABLE) {
+            //check the current scope
             Method currentMethod = ScriptScope.getCurrentMethod();
             Variable variable = currentMethod.getVariable(argument);
 

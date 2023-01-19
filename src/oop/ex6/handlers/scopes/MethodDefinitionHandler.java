@@ -12,6 +12,12 @@ import java.util.regex.Matcher;
 
 public class MethodDefinitionHandler implements HandlerInterface {
 
+    /**
+     * check if method definition is valid
+     * @param matcher line from file
+     * @return true if is valid, else otherwise
+     */
+
     public boolean handleMethodDefinition(Matcher matcher) {
         if (!ScriptScope.isInGlobalScope())
             return false;
@@ -24,11 +30,12 @@ public class MethodDefinitionHandler implements HandlerInterface {
         if (matcher.groupCount() < 2 || matcher.group(2) == null)
             methodParameters = new String[0];
         else
+            //replace all multiple spaces in one space
             methodParameters =
                 matcher.group(2).replaceAll("\\s+", " ").trim().split("\\s*,\\s*");
 
         ArrayList<Variable> parameters = new ArrayList<>();
-
+        //check method parameters
         for (String methodParameter : methodParameters) {
             String[] parameterValues = methodParameter.split(" ");
             boolean isFinal = parameterValues.length == 3;
@@ -40,12 +47,20 @@ public class MethodDefinitionHandler implements HandlerInterface {
             parameters.add(parameterVariable);
         }
 
+        //update method information
         Method method = new Method(methodName, parameters);
         ScriptScope.addMethod(methodName, method);
         ScriptScope.setCurrentMethod(methodName);
         ScriptScope.setInGlobalScope(false);
         return true;
     }
+
+    /**
+     * check if parameter exist
+     * @param variableName
+     * @param parameters
+     * @return true if is valid, else otherwise
+     */
 
     private boolean isAlreadyParameter(String variableName, ArrayList<Variable> parameters) {
         for (Variable variable : parameters) {

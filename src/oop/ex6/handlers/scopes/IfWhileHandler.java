@@ -12,29 +12,39 @@ import java.util.regex.Matcher;
 
 public class IfWhileHandler implements HandlerInterface {
 
+    /**
+     * check if the first line of if or while is in correct format
+     * @param matcher
+     * @return true if line is in the correct format, else otherwise
+     */
     public boolean handleIfWhile(Matcher matcher) {
         if (ScriptScope.isInGlobalScope())
             return false;
-
+        //replace multiple spaces
         String[] conditions =
                 matcher.group(2).replaceAll("\\s*", "").trim().split("\\s*\\|\\||&&\\s*");
-
+        //check boolean condition
         for (String condition : conditions) {
             if (!isConditionValid(condition))
                 return false;
         }
+        //update current scope
         Method currentMethod = ScriptScope.getCurrentMethod();
         currentMethod.addScope();
         return true;
     }
 
-    private boolean isConditionValid(String condition) {
-//        if (!VariableTypesUtils.isValueVariable(condition))
-//            return true;
+    /**
+     * check if the condition is valid
+     * @param condition type of string
+     * @return true if the condition is valid else otherwise
+     */
 
+    private boolean isConditionValid(String condition) {
         Types conditionType = VariableTypesUtils.deriveTypeFromValue(condition);
 
         if (conditionType == Types.POSSIBLE_VARIABLE) {
+            //check scope
             Method currentMethod = ScriptScope.getCurrentMethod();
             Variable variable = currentMethod.getVariable(condition);
 

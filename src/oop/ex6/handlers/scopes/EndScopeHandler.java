@@ -8,6 +8,10 @@ import java.util.regex.Matcher;
 
 public class EndScopeHandler implements HandlerInterface {
 
+    /**
+     * check if the } is in the correct scope and update scope
+     * @return true if the line is correct
+     */
     public boolean handleEndScope() {
         if (ScriptScope.isInGlobalScope())
             return false;
@@ -26,7 +30,6 @@ public class EndScopeHandler implements HandlerInterface {
     }
 
     /**
-     *
      * @param line - line from file
      * @return bool if line is correct , false is not correct
      */
