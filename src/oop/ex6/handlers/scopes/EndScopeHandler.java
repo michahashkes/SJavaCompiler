@@ -7,7 +7,9 @@ import oop.ex6.scopes.ScriptScope;
 import java.util.regex.Matcher;
 
 public class EndScopeHandler implements HandlerInterface {
-
+    /*
+    handle with the end of scope check if we are in suitebale
+     */
     public boolean handleEndScope() {
         if (ScriptScope.isInGlobalScope())
             return false;

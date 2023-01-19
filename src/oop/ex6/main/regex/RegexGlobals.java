@@ -42,7 +42,7 @@ public class RegexGlobals {
         finalMap.add( CHAR_FINAL_PARSER);
     }
 
-    public final static String VARIABLE_NAME_REGEX = "_*[a-zA-Z]+\\w*";
+    public final static String VARIABLE_NAME_REGEX = "[_a-zA-Z]+\\w*";
     public final static String INT_REGEX = "[+-]?\\d+";
     public final static String DOUBLE_REGEX = "[-+]?\\d*\\.?\\d+";
     public final static String STRING_REGEX = "\".*\"";
