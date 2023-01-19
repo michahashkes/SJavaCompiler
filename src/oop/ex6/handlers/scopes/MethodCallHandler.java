@@ -76,6 +76,10 @@ public class MethodCallHandler implements HandlerInterface {
         return argumentType;
     }
 
+    /**
+     * @param line - line from file
+     * @return bool if line is correct , false is not correct
+     */
     @Override
     public boolean handleLine(Matcher line) {
         boolean handle = handleMethodCall(line);

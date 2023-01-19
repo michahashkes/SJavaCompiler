@@ -7,9 +7,7 @@ import oop.ex6.scopes.ScriptScope;
 import java.util.regex.Matcher;
 
 public class EndScopeHandler implements HandlerInterface {
-    /*
-    handle with the end of scope check if we are in suitebale
-     */
+
     public boolean handleEndScope() {
         if (ScriptScope.isInGlobalScope())
             return false;
@@ -26,6 +24,12 @@ public class EndScopeHandler implements HandlerInterface {
         currentMethod.removeScope();
         return true;
     }
+
+    /**
+     *
+     * @param line - line from file
+     * @return bool if line is correct , false is not correct
+     */
 
     @Override
     public boolean handleLine(Matcher line) {
