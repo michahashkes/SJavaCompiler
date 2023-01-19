@@ -1,7 +1,13 @@
 package oop.ex6.main;
 
-import oop.ex6.*;
-import oop.ex6.handlers.IfWhileHandler;
+import oop.ex6.handlers.scopes.IfWhileHandler;
+import oop.ex6.main.regex.Types;
+import oop.ex6.method.Method;
+import oop.ex6.method.MethodCall;
+import oop.ex6.scopes.ScriptScope;
+import oop.ex6.variables.PossibleGlobalVariable;
+import oop.ex6.variables.Variable;
+import oop.ex6.variables.VariableTypesUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Sjavac {
+
+    private final static int SINGLE_FILE_LENGTH = 1;
+    private final static String NUMBER_OF_FILES_ERROR = "Usage: need to send a single file to check";
     public Sjavac() {
     }
 
@@ -60,8 +69,8 @@ public class Sjavac {
     }
 
     private boolean checkGlobalVariableValidity() {
-        HashMap<String, Variable> globalVariables = MethodScope.getGlobalVariables();
-        ArrayList<PossibleGlobalVariable> possibleGlobalVariables = MethodScope.getPossibleGlobalVariables();
+        HashMap<String, Variable> globalVariables = ScriptScope.getGlobalVariables();
+        ArrayList<PossibleGlobalVariable> possibleGlobalVariables = ScriptScope.getPossibleGlobalVariables();
 
         for (PossibleGlobalVariable possibleGlobalVariable : possibleGlobalVariables) {
             if (!isPossibleGlobalVariableValid(possibleGlobalVariable, globalVariables))
@@ -71,8 +80,8 @@ public class Sjavac {
     }
 
     private boolean checkMethodCallsValidity() {
-        HashMap<String, MethodCall> methodCalls = MethodScope.getMethodCalls();
-        HashMap<String, Method> methods = MethodScope.getMethods();
+        HashMap<String, MethodCall> methodCalls = ScriptScope.getMethodCalls();
+        HashMap<String, Method> methods = ScriptScope.getMethods();
         for (Map.Entry<String, MethodCall> methodCallEntry : methodCalls.entrySet()) {
             if (!isMethodCallValid(methodCallEntry, methods))
                 return false;
@@ -92,7 +101,7 @@ public class Sjavac {
 
         MethodCall methodCall = methodCallEntry.getValue();
         Method method = methods.get(methodCallEntry.getKey());
-        HashMap<String, Variable> globalVariables = MethodScope.getGlobalVariables();
+        HashMap<String, Variable> globalVariables = ScriptScope.getGlobalVariables();
 
         ArrayList<MethodCall.MethodCallArgument> arguments = methodCall.getMethodCallVariables();
         ArrayList<Variable> parameters = method.getParameters();
@@ -122,29 +131,35 @@ public class Sjavac {
 
     public static void main(String[] args) {
 
-        MethodScope.startScriptScope();
-
-        Parser parser = new Parser(args[0]);
+        ScriptScope.startScriptScope();
         try {
+            if(args.length != SINGLE_FILE_LENGTH){
+                throw new IncorrectNumberOfFilesException(NUMBER_OF_FILES_ERROR);
+            }
+            Parser parser = new Parser(args[0]);
             parser.readFile();
         }
-        catch (IOException e) {
+        catch (IncorrectNumberOfFilesException | IOException e) {
+            System.out.println(e.getMessage());
             System.out.println(2);
             return;
+        }catch (FileFormatException | RuntimeException e) {
+           System.err.println(e.getMessage());
+           System.out.println(1);
+           return;
         }
-        catch (RuntimeException e) {
-            System.out.println(1);
-            return;
-        }
+
         Sjavac sjavac = new Sjavac();
         if (!sjavac.checkGlobalVariableValidity()) {
             System.out.println(1);
             return;
         }
         if (!sjavac.checkMethodCallsValidity()) {
-            System.out.println(1);;
+            System.out.println(1);
             return;
         }
         System.out.println(0);
+
+
     }
 }

@@ -1,0 +1,6 @@
+int a;
+boolean b;
+
+char c;
+
+a = 5, b=3,c = 'c';

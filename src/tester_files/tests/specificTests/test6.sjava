@@ -1,0 +1,10 @@
+void foo(){
+int a;
+if(true){
+a = 5;
+}
+int b = a ;
+if (true){
+int c = a;
+}
+}

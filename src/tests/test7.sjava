@@ -1,0 +1,11 @@
+void method() {
+if (true) {
+a = 7;
+}
+if (a) {
+int b = 1;
+}
+return;
+}
+int c = 3;
+int a;

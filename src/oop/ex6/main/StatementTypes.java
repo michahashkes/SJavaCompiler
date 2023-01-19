@@ -1,5 +1,0 @@
-package oop.ex6.main;
-
-public enum StatementTypes {
-    DECLARE,ASSIGN,FINAL,IF,WHILE,METHOD_DECLARE,METHOD_CALL, RETURN, EMPTY_LINE, COMMENT, END_SCOPE
-}

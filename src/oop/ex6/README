@@ -1,0 +1,20 @@
+test 1 - illegal spaces
+test 2 - illegal comment
+test 3 - illegal spaces
+test 4 - double assignment
+test 5 - local variable and scopes
+test 6 - scopes and assignment
+test 7 - global variable and scopes
+test 8 - boolean assignment
+test 9 - unknown variable
+test 10 - name format
+test 11 - name format
+test 12 - double format
+test 13 - incorrect return
+test 14 - correct return
+test 15 - missing return
+test 16 -  reserve words
+test 17 - reserve words
+test 18 - incorrect final assignment
+test 19 - incorrect final declaration
+test 20 - multiple types of assignment
