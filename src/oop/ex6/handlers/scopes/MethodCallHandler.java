@@ -18,9 +18,9 @@ public class MethodCallHandler implements HandlerInterface {
      * @param matcher
      * @return true if is valid, else otherwise
      */
-    public boolean handleMethodCall(Matcher matcher) {
+    public boolean handleMethodCall(Matcher matcher) throws IllegalMethodCallException {
         if (ScriptScope.isInGlobalScope())
-            return false;
+            throw new IllegalMethodCallException();
 
         String callMethodName = matcher.group(1);
         String[] methodArguments;
@@ -37,7 +37,7 @@ public class MethodCallHandler implements HandlerInterface {
             Types argumentType = getArgumentType(argument);
 
             if (argumentType == Types.UNSUPPORTED_TYPE)
-                return false;
+                throw new IllegalMethodCallException();
 
             if (argumentType == Types.POSSIBLE_GLOBAL_VARIABLE_INITIALIZED ||
                     argumentType == Types.POSSIBLE_GLOBAL_VARIABLE_UNINITIALIZED)
@@ -92,7 +92,7 @@ public class MethodCallHandler implements HandlerInterface {
      * @return bool if line is correct , false is not correct
      */
     @Override
-    public boolean handleLine(Matcher line) {
+    public boolean handleLine(Matcher line) throws IllegalMethodCallException {
         boolean handle = handleMethodCall(line);
         ScriptScope.setLastLineReturn(false);
         return handle;

@@ -1,6 +1,11 @@
 package oop.ex6.main;
 
 import oop.ex6.handlers.LineHandler;
+import oop.ex6.handlers.scopes.*;
+import oop.ex6.handlers.variables.IllegalAssignException;
+import oop.ex6.handlers.variables.IllegalDeclarationException;
+import oop.ex6.handlers.variables.IllegalFinalVariableException;
+import oop.ex6.handlers.variables.IllegalInitializedVariableException;
 import oop.ex6.main.regex.RegexGlobals;
 import oop.ex6.main.regex.RegexScopes;
 import oop.ex6.main.regex.StatementTypes;
@@ -42,7 +47,8 @@ public class Parser {
      * @throws RuntimeException
      */
 
-    public boolean readFile() throws IOException, FileFormatException,RuntimeException {
+    public boolean readFile() throws IOException, IllegalLineException, IllegalVariablesException
+            , IllegalScopesException, IllegalInitializedVariableException, IllegalAssignException, IllegalDeclarationException, IllegalFinalVariableException, IllegalIfWhileException, IllegalMethodCallException, IllegalEndOfScopesException, IllegalReturnException, IllegalMethodDefinitionException {
 
         LineHandler lineHandler = new LineHandler();
         try (FileReader fileReader = new FileReader(fileName);
@@ -53,7 +59,7 @@ public class Parser {
                 validLine( line,lineHandler);
                 validScope(line,lineHandler);
                 if (!matched)
-                    throw new FileFormatException(NOT_MATCHED_ERROR);
+                    throw new IllegalLineException(NOT_MATCHED_ERROR);
             }
         }
         return true;
@@ -63,7 +69,7 @@ public class Parser {
      */
 
     private void validLine( String line,LineHandler lineHandler) throws
-            FileFormatException{
+            IllegalVariablesException, IllegalInitializedVariableException, IllegalAssignException, IllegalDeclarationException, IllegalFinalVariableException, IllegalIfWhileException, IllegalMethodCallException, IllegalEndOfScopesException, IllegalReturnException, IllegalMethodDefinitionException {
         for (Map.Entry<StatementTypes,Set<String>> entry : lineTypesRegexMap.entrySet()) {
             for(String value : entry.getValue()){
                 p = Pattern.compile(value);
@@ -71,7 +77,7 @@ public class Parser {
                 if (m.matches()) {
                     matched = true;
                     if (!lineHandler.handleLine(entry.getKey(), m))
-                        throw new FileFormatException(ILLEGAL_VARIABLES_ERROR);
+                        throw new IllegalVariablesException(ILLEGAL_VARIABLES_ERROR);
                     break;
                 }
             }
@@ -81,14 +87,14 @@ public class Parser {
     valid line of if, while, method call, method declare or return
      */
 
-    private void validScope(String line,LineHandler lineHandler) throws FileFormatException {
+    private void validScope(String line,LineHandler lineHandler) throws IllegalScopesException, IllegalInitializedVariableException, IllegalAssignException, IllegalDeclarationException, IllegalFinalVariableException, IllegalIfWhileException, IllegalMethodCallException, IllegalEndOfScopesException, IllegalReturnException, IllegalMethodDefinitionException {
         for (Map.Entry<StatementTypes,String> lineAndType: scopeTypesRegexMap.entrySet()){
             p = Pattern.compile(lineAndType.getValue());
             m = p.matcher(line);
             if (m.matches()) {
                 matched = true;
                 if (!lineHandler.handleLine(lineAndType.getKey(),m))
-                    throw new FileFormatException(ILLEGAL_SCOPES_ERROR);
+                    throw new IllegalScopesException(ILLEGAL_SCOPES_ERROR);
                 break;
             }
         }

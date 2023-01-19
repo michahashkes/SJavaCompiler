@@ -14,17 +14,19 @@ public class VariableAssignmentHandler implements HandlerInterface {
      * @param matcher - phase
      * @return true if the variable is true
      */
-    public boolean handleVariable(Matcher matcher) {
+    public boolean handleVariable(Matcher matcher) throws IllegalAssignException{
         String[] lines = matcher.group(0).replaceAll("\\s+", "").trim().split("\\s*,\\s*");
 
         for (int i = 0; i < lines.length; i++) {
             String[] linesAndValues = lines[i].split("=");
-            if (linesAndValues.length != 2)
-                return false;
+            if (linesAndValues.length != 2){
+                throw new IllegalAssignException();
+//                return false;
+            }
             if (i == lines.length - 1)
                 linesAndValues[1] = linesAndValues[1].replace(";", "");
             if (!variableHandler.handleAssignedVariable(linesAndValues[0], linesAndValues[1]))
-                return false;
+                throw new IllegalAssignException();
         }
         return true;
 
@@ -36,7 +38,7 @@ public class VariableAssignmentHandler implements HandlerInterface {
      * @return bool if line is correct , false is not correct
      */
     @Override
-    public boolean handleLine(Matcher line) {
+    public boolean handleLine(Matcher line) throws IllegalAssignException {
         boolean handle = handleVariable(line);
         ScriptScope.setLastLineReturn(false);
         return handle;

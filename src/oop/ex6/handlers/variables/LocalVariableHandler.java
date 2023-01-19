@@ -15,14 +15,14 @@ public class LocalVariableHandler implements VariableHandlerInterface {
      * @param variableType Types
      * @return true if the declared variable are in correct format
      */
-    public boolean handleDeclaredVariable(String variableName, Types variableType) {
+    public boolean handleDeclaredVariable(String variableName, Types variableType) throws IllegalDeclarationException {
         if (canVariableBeDeclared(variableName)) {
             Variable variable = new Variable(variableType, variableName, false, false);
             Method currentMethod = ScriptScope.getCurrentMethod();
             currentMethod.addVariable(variable);
             return true;
         }
-        return false;
+        throw new IllegalDeclarationException();
     }
     /**
      * handle with initialized variable
@@ -32,14 +32,14 @@ public class LocalVariableHandler implements VariableHandlerInterface {
      */
 
     public boolean handleInitializedVariable(String variableName,
-                                             Types variableType, String variableValue) {
+                                             Types variableType, String variableValue) throws IllegalInitializedVariableException {
         if (canVariableBeInitialized(variableName, variableType, variableValue)) {
             Variable variable = new Variable(variableType, variableName, true, false);
             Method currentMethod = ScriptScope.getCurrentMethod();
             currentMethod.addVariable(variable);
             return true;
         }
-        return false;
+        throw new IllegalInitializedVariableException();
     }
     /**
      * handle with assigned variable
@@ -49,7 +49,7 @@ public class LocalVariableHandler implements VariableHandlerInterface {
      */
 
 
-    public boolean handleAssignedVariable(String variableName, String variableValue) {
+    public boolean handleAssignedVariable(String variableName, String variableValue) throws IllegalAssignException {
         if (canVariableBeAssigned(variableName, variableValue)) {
             Method currentMethod = ScriptScope.getCurrentMethod();
             Variable variable = currentMethod.getVariable(variableName);
@@ -62,7 +62,7 @@ public class LocalVariableHandler implements VariableHandlerInterface {
             }
             return true;
         }
-        return false;
+        throw new IllegalAssignException();
     }
     /**
      * handle with final variable
@@ -73,14 +73,14 @@ public class LocalVariableHandler implements VariableHandlerInterface {
 
 
     public boolean handleFinalVariable(String variableName,
-                                       Types variableType, String variableValue) {
+                                       Types variableType, String variableValue) throws IllegalFinalVariableException {
         if (canVariableBeInitialized(variableName, variableType, variableValue)) {
             Variable variable = new Variable(variableType, variableName, true, true);
             Method currentMethod = ScriptScope.getCurrentMethod();
             currentMethod.addVariable(variable);
             return true;
         }
-        return false;
+        throw new IllegalFinalVariableException();
     }
 
     /*
@@ -104,7 +104,7 @@ public class LocalVariableHandler implements VariableHandlerInterface {
     check if variable can be assigned, return true if he can false otherwise
      */
 
-    private boolean canVariableBeAssigned(String variableName, String variableValue) {
+    private boolean canVariableBeAssigned(String variableName, String variableValue)  {
         Method currentMethod = ScriptScope.getCurrentMethod();
         Variable variable = currentMethod.getVariable(variableName);
 

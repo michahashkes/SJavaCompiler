@@ -18,7 +18,7 @@ public class VariableDeclarationHandler implements HandlerInterface {
      * @param matcher
      * @return if the variable is correct format else otherwise
      */
-    public boolean handleVariable(Matcher matcher) {
+    public boolean handleVariable(Matcher matcher) throws IllegalDeclarationException, IllegalInitializedVariableException, IllegalFinalVariableException {
         boolean isFinal = false;
         String[] declaration = matcher.group(1).replaceAll("\\s+", " ").trim().split(" ");
         if (declaration.length < 1 || declaration.length > 2)
@@ -36,7 +36,7 @@ public class VariableDeclarationHandler implements HandlerInterface {
 
     }
 
-    private boolean checkVariables(boolean isFinal, Matcher matcher, Types variableType){
+    private boolean checkVariables(boolean isFinal, Matcher matcher, Types variableType) throws IllegalDeclarationException, IllegalFinalVariableException, IllegalInitializedVariableException {
         //replace all multiple spaces in one space
         String[] variables = matcher.group(2).replaceAll("\\s+", " ").trim().split("\\s*,\\s*");
         for (int i = 0; i < variables.length; i++) {
@@ -67,7 +67,7 @@ public class VariableDeclarationHandler implements HandlerInterface {
      * @return bool if line is correct , false is not correct
      */
     @Override
-    public boolean handleLine(Matcher line) {
+    public boolean handleLine(Matcher line) throws IllegalDeclarationException, IllegalInitializedVariableException, IllegalFinalVariableException {
         boolean handle = handleVariable(line);
         ScriptScope.setLastLineReturn(false);
         return handle;

@@ -1,3 +1,30 @@
+mikehash
+nitzanknoll
+
+<Error Handling >
+We divided the handling of errors into 3 main cases:
+1. Incorrect number of arguments - too many files or no file at all - in this case IncorrectNumberOfFilesException
+   Called
+2. IOException
+In the case of both of the above, we will print an error message to the user and then print 2 and then exit the program.
+3. At least one line is wrong in the code: we divided this case into 11 cases, 8 detailed cases that inherit from
+ FileFormatException that inherits from Exception:
+Illegal assignment case, Illegal initialization case, Final variable type error case, Illegal declaration case,
+ Illegal variable case, Illegal method call case, Illegal if While case, Scope finalization case Illegal,
+ an instance of an illegal method declaration. For each of the cases we wrote a class that will handle the case and
+ print an informative error message
+The other 3 classes are in case the 8 errors failed to catch.
+
+We chose to divide the error handling in this way because that way the user will be able to know whether the error
+Occurred during the opening or closing of the document or there is a problem with at least one of the written lines
+ in the document, if there is a problem with one of the written lines in the document - the user will receive an
+ informative message in which part of the code the error occurred
+
+<Object Oriented Design>
+
+<Regular Expression>
+
+Short explain of each test :
 test 1 - illegal spaces
 test 2 - illegal comment
 test 3 - illegal spaces

@@ -1,6 +1,10 @@
 package oop.ex6.main;
 
-import oop.ex6.handlers.scopes.IfWhileHandler;
+import oop.ex6.handlers.scopes.*;
+import oop.ex6.handlers.variables.IllegalAssignException;
+import oop.ex6.handlers.variables.IllegalDeclarationException;
+import oop.ex6.handlers.variables.IllegalFinalVariableException;
+import oop.ex6.handlers.variables.IllegalInitializedVariableException;
 import oop.ex6.main.regex.Types;
 import oop.ex6.method.Method;
 import oop.ex6.method.MethodCall;
@@ -143,7 +147,11 @@ public class Sjavac {
             System.out.println(e.getMessage());
             System.out.println(2);
             return;
-        }catch (FileFormatException | RuntimeException e) {
+        }catch (IllegalVariablesException|IllegalScopesException| IllegalLineException
+                | IllegalInitializedVariableException | IllegalAssignException | IllegalDeclarationException |
+                IllegalFinalVariableException |
+                IllegalIfWhileException | IllegalMethodCallException | IllegalReturnException
+                | IllegalEndOfScopesException | IllegalMethodDefinitionException e) {
            System.err.println(e.getMessage());
            System.out.println(1);
            return;

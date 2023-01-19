@@ -12,14 +12,14 @@ public class EndScopeHandler implements HandlerInterface {
      * check if the } is in the correct scope and update scope
      * @return true if the line is correct
      */
-    public boolean handleEndScope() {
+    public boolean handleEndScope() throws IllegalEndOfScopesException {
         if (ScriptScope.isInGlobalScope())
-            return false;
+            throw new IllegalEndOfScopesException();
 
         Method currentMethod = ScriptScope.getCurrentMethod();
         if (currentMethod.getCurrentScope() == 0) {
             if (!ScriptScope.isLastLineReturn())
-                return false;
+                throw new IllegalEndOfScopesException();
             ScriptScope.setInGlobalScope(true);
             currentMethod.setFunctionClosed(true);
             return true;
@@ -35,7 +35,7 @@ public class EndScopeHandler implements HandlerInterface {
      */
 
     @Override
-    public boolean handleLine(Matcher line) {
+    public boolean handleLine(Matcher line) throws IllegalEndOfScopesException {
         boolean handle = handleEndScope();
         ScriptScope.setLastLineReturn(false);
         return handle;

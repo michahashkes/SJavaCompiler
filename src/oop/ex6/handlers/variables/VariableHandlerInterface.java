@@ -9,7 +9,7 @@ public interface VariableHandlerInterface {
      * @param variableType Types
      * @return true if the declared variable are in correct format
      */
-    public boolean handleDeclaredVariable(String variableName, Types variableType);
+    public boolean handleDeclaredVariable(String variableName, Types variableType) throws IllegalDeclarationException;
     /**
      * handle with assigned variable
      * @param variableName String
@@ -17,7 +17,7 @@ public interface VariableHandlerInterface {
      * @return true if the assigned variable are in correct format
      */
 
-    public boolean handleAssignedVariable(String variableName, String variableValue);
+    public boolean handleAssignedVariable(String variableName, String variableValue) throws IllegalAssignException;
     /**
      * handle with initialized variable
      * @param variableName String
@@ -25,7 +25,7 @@ public interface VariableHandlerInterface {
      * @return true if theinitialized variable are in correct format
      */
     public boolean handleInitializedVariable(String variableName,
-                                             Types variableType, String variableValue);
+                                             Types variableType, String variableValue) throws IllegalInitializedVariableException;
     /**
      * handle with final variable
      * @param variableName String
@@ -34,6 +34,6 @@ public interface VariableHandlerInterface {
      */
 
     public boolean handleFinalVariable(String variableName,
-                                       Types variableType, String variableValue);
+                                       Types variableType, String variableValue) throws IllegalFinalVariableException;
 
 }

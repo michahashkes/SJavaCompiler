@@ -1,5 +1,10 @@
 package oop.ex6.handlers;
 
+import oop.ex6.handlers.scopes.*;
+import oop.ex6.handlers.variables.IllegalAssignException;
+import oop.ex6.handlers.variables.IllegalDeclarationException;
+import oop.ex6.handlers.variables.IllegalFinalVariableException;
+import oop.ex6.handlers.variables.IllegalInitializedVariableException;
 import oop.ex6.main.regex.StatementTypes;
 
 import java.util.regex.Matcher;
@@ -14,7 +19,7 @@ public class LineHandler {
      * @return true if the line is in correct format
      */
 
-    public boolean handleLine(StatementTypes statementTypes, Matcher line) {
+    public boolean handleLine(StatementTypes statementTypes, Matcher line) throws IllegalInitializedVariableException, IllegalAssignException, IllegalDeclarationException, IllegalFinalVariableException, IllegalIfWhileException, IllegalMethodCallException, IllegalEndOfScopesException, IllegalReturnException, IllegalMethodDefinitionException {
         HandlersFactory handlersFactory = new HandlersFactory();
         HandlerInterface handle = handlersFactory.Handlers(statementTypes);
         if (handle == null)

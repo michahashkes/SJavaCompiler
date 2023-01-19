@@ -18,13 +18,13 @@ public class MethodDefinitionHandler implements HandlerInterface {
      * @return true if is valid, else otherwise
      */
 
-    public boolean handleMethodDefinition(Matcher matcher) {
+    public boolean handleMethodDefinition(Matcher matcher) throws IllegalMethodDefinitionException {
         if (!ScriptScope.isInGlobalScope())
-            return false;
+           throw new IllegalMethodDefinitionException();
 
         String methodName = matcher.group(1);
         if (ScriptScope.getMethods().containsKey(methodName))
-            return false;
+            throw new IllegalMethodDefinitionException();
 
         String[] methodParameters;
         if (matcher.groupCount() < 2 || matcher.group(2) == null)
@@ -42,7 +42,7 @@ public class MethodDefinitionHandler implements HandlerInterface {
             Types variableType = VariableTypesUtils.deriveTypeFromType(isFinal ? parameterValues[1] : parameterValues[0]);
             String variableName = isFinal ? parameterValues[2] : parameterValues[1];
             if (isAlreadyParameter(variableName, parameters))
-                return false;
+                throw new IllegalMethodDefinitionException();
             Variable parameterVariable = new Variable(variableType, variableName, true, isFinal);
             parameters.add(parameterVariable);
         }
@@ -75,7 +75,7 @@ public class MethodDefinitionHandler implements HandlerInterface {
      * @return bool if line is correct , false is not correct
      */
     @Override
-    public boolean handleLine(Matcher line) {
+    public boolean handleLine(Matcher line) throws IllegalMethodDefinitionException {
         boolean handle = handleMethodDefinition(line);
         ScriptScope.setLastLineReturn(false);
         return handle;

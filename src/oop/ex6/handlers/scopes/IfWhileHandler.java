@@ -17,16 +17,16 @@ public class IfWhileHandler implements HandlerInterface {
      * @param matcher
      * @return true if line is in the correct format, else otherwise
      */
-    public boolean handleIfWhile(Matcher matcher) {
+    public boolean handleIfWhile(Matcher matcher) throws IllegalIfWhileException {
         if (ScriptScope.isInGlobalScope())
-            return false;
+            throw new IllegalIfWhileException();
         //replace multiple spaces
         String[] conditions =
                 matcher.group(2).replaceAll("\\s*", "").trim().split("\\s*\\|\\||&&\\s*");
         //check boolean condition
         for (String condition : conditions) {
             if (!isConditionValid(condition))
-                return false;
+                throw new IllegalIfWhileException();
         }
         //update current scope
         Method currentMethod = ScriptScope.getCurrentMethod();
@@ -80,7 +80,7 @@ public class IfWhileHandler implements HandlerInterface {
      */
 
     @Override
-    public boolean handleLine(Matcher line) {
+    public boolean handleLine(Matcher line) throws IllegalIfWhileException {
        boolean handle =handleIfWhile(line);
         ScriptScope.setLastLineReturn(false);
         return handle;

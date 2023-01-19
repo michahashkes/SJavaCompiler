@@ -26,7 +26,7 @@ public class VariableHandler implements VariableHandlerInterface {
      */
 
     @Override
-    public boolean handleDeclaredVariable(String variableName, Types variableType) {
+    public boolean handleDeclaredVariable(String variableName, Types variableType) throws IllegalDeclarationException {
         if(ScriptScope.isInGlobalScope())
             return globalVariableHandler.handleDeclaredVariable(variableName,variableType);
         return localVariableHandler.handleDeclaredVariable(variableName,variableType);
@@ -39,7 +39,7 @@ public class VariableHandler implements VariableHandlerInterface {
      */
 
     @Override
-    public boolean handleAssignedVariable(String variableName, String variableValue) {
+    public boolean handleAssignedVariable(String variableName, String variableValue) throws IllegalAssignException {
        if(ScriptScope.isInGlobalScope())
            return globalVariableHandler.handleAssignedVariable(variableName,variableValue);
        return localVariableHandler.handleAssignedVariable(variableName,variableValue);
@@ -52,7 +52,7 @@ public class VariableHandler implements VariableHandlerInterface {
      */
 
     @Override
-    public boolean handleInitializedVariable(String variableName, Types variableType, String variableValue) {
+    public boolean handleInitializedVariable(String variableName, Types variableType, String variableValue) throws IllegalInitializedVariableException {
         if(ScriptScope.isInGlobalScope())
             return globalVariableHandler.handleInitializedVariable(variableName, variableType,variableValue);
         return localVariableHandler.handleInitializedVariable(variableName,variableType,variableValue);
@@ -65,7 +65,7 @@ public class VariableHandler implements VariableHandlerInterface {
      */
 
     @Override
-    public boolean handleFinalVariable(String variableName, Types variableType, String variableValue) {
+    public boolean handleFinalVariable(String variableName, Types variableType, String variableValue) throws IllegalFinalVariableException {
        if(ScriptScope.isInGlobalScope())
            return globalVariableHandler.handleFinalVariable(variableName,variableType,variableValue);
        return localVariableHandler.handleFinalVariable(variableName,variableType,variableValue);

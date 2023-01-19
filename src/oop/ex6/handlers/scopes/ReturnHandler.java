@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 
 public class ReturnHandler implements HandlerInterface {
     /*
-    check if return is in correct scope
+    check if the return is in correct scope
      */
     public boolean handleReturn(Matcher matcher) {
         return (!ScriptScope.isInGlobalScope());
