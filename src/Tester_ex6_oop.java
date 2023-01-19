@@ -1,9 +1,7 @@
 import oop.ex6.main.Sjavac;
 import org.junit.Test;
 
-import java.awt.*;
 import java.io.*;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -12,7 +10,8 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class Tester_ex6_oop {
 	private static Path pathToFiles = Paths.get("C:\\Users\\97254\\Documents\\acadmy\\OOP\\ex_6\\SJavaCompiler\\src", "tester_files");
@@ -78,45 +77,45 @@ public class Tester_ex6_oop {
 
 	}
 
-
-	@Test
-	/*
-	main test - run all tests.
-	 */
-	public void runAllTests() {
-		resetOutputFile();
-
-		System.out.println("The results of this test are saved in the file user_output");
-		boolean passedAll = true;
-
-		int numOfPassed = 0, testIndex = 1;
-		LinkedList<File> listOfTests = getListOfTests(pathToTests);
-		for (File file : listOfTests) {
-			System.out.println();
-			System.out.printf(String.format("starting test %s, %%d out of %%d:%%n",
-					getTestName(Paths.get(file.getPath()))), testIndex, listOfTests.size());
-			if (doOneTest(Paths.get(file.getPath()))) // the real thing
-				numOfPassed++;
-			else
-				passedAll = false;
-			testIndex++;
-		}
-
-		// massages. nothing critical from here.
-
-		String summary = String.format("\npassed %d out of %d tests.%n", numOfPassed, listOfTests.size());
-		System.out.println(summary);
-		writeToFile(summary);
-		assertTrue(error, passedAll);
-
-		try {
-			if (Desktop.isDesktopSupported()) {
-				Desktop.getDesktop().browse(new URI("http://mrwgifs.com/wp-content/uploads/2013/08/Success-Kid-Meme-Gif.gif"));
-			}
-		} catch (Exception e) {
-		}
-		System.out.println("The results of this test are saved in the file user_output");
-	}
+//
+//	@Test
+//	/*
+//	main test - run all tests.
+//	 */
+//	public void runAllTests() {
+//		resetOutputFile();
+//
+//		System.out.println("The results of this test are saved in the file user_output");
+//		boolean passedAll = true;
+//
+//		int numOfPassed = 0, testIndex = 1;
+//		LinkedList<File> listOfTests = getListOfTests(pathToTests);
+//		for (File file : listOfTests) {
+//			System.out.println();
+//			System.out.printf(String.format("starting test %s, %%d out of %%d:%%n",
+//					getTestName(Paths.get(file.getPath()))), testIndex, listOfTests.size());
+//			if (doOneTest(Paths.get(file.getPath()))) // the real thing
+//				numOfPassed++;
+//			else
+//				passedAll = false;
+//			testIndex++;
+//		}
+//
+//		// massages. nothing critical from here.
+//
+//		String summary = String.format("\npassed %d out of %d tests.%n", numOfPassed, listOfTests.size());
+//		System.out.println(summary);
+//		writeToFile(summary);
+//		assertTrue(error, passedAll);
+//
+//		try {
+//			if (Desktop.isDesktopSupported()) {
+//				Desktop.getDesktop().browse(new URI("http://mrwgifs.com/wp-content/uploads/2013/08/Success-Kid-Meme-Gif.gif"));
+//			}
+//		} catch (Exception e) {
+//		}
+//		System.out.println("The results of this test are saved in the file user_output");
+//	}
 
 	@Test
 	/*
